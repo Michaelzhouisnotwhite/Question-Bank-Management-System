@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "CDataBase.h"
 
 
 // CLoginDlg 对话框
@@ -34,4 +35,6 @@ protected:
 public:
 	afx_msg void OnEnChangeEditTeacherId();
 	afx_msg void OnBnClickedOk();
+
+	CDataBase cdb;
 };

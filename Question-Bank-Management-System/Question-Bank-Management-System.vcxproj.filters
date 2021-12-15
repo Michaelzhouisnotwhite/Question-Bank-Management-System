@@ -36,6 +36,9 @@
     <ClInclude Include="CDataBase.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CDoc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Question-Bank-Management-System.cpp">
@@ -50,6 +53,9 @@
     <ClCompile Include="CDataBase.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CDoc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="QuestionBankManagementSystem.rc">
@@ -61,9 +67,16 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="config.json" />
+    <None Include="config_output" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Question-Bank-Management-System.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon1.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\图片1.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

@@ -76,6 +76,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\Program Files %28x64%29\MySql\MySql Server8.0 Install\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Program Files %28x64%29\MySql\MySql Server8.0 Install\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -184,6 +186,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CDataBase.h" />
+    <ClInclude Include="CDoc.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="pch.h" />
@@ -193,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CDataBase.cpp" />
+    <ClCompile Include="CDoc.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -207,10 +211,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="config.json" />
+    <None Include="config_output" />
     <None Include="res\QuestionBankManagementSystem.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\icon1.ico" />
     <Image Include="res\Question-Bank-Management-System.ico" />
+    <Image Include="res\图片1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
