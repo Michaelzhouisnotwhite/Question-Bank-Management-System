@@ -13,7 +13,7 @@
 __pycache__
 build
 dist
-./ReadJson/config.json
+./ReadJson/*.json
 ./ReadJson/config_output
 getconfigration.spec
 !getconfigration.exe
