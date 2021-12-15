@@ -8,7 +8,6 @@
 #define IDD_QUESTIONBANKMANAGEMENTSYSTEM_DIALOG 102
 #define IDD_LOGIN_DIALOG                102
 #define IDR_MAINFRAME                   128
-#define IDD_DIALOG1                     130
 #define IDD_MAIN_DLG                    130
 #define IDC_EDIT_TEACHER_ID             1000
 #define IDC_EDIT_PSW                    1001

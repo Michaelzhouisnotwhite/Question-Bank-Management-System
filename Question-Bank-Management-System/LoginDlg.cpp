@@ -66,6 +66,7 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_EN_CHANGE(IDC_EDIT_TEACHER_ID, &CLoginDlg::OnEnChangeEditTeacherId)
+	ON_BN_CLICKED(IDOK, &CLoginDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -164,4 +165,11 @@ void CLoginDlg::OnEnChangeEditTeacherId()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
+}
+
+
+void CLoginDlg::OnBnClickedOk()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CDialogEx::OnOK();
 }

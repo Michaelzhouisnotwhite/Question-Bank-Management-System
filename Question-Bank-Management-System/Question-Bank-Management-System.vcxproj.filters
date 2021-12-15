@@ -33,6 +33,9 @@
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CDataBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Question-Bank-Management-System.cpp">
@@ -42,6 +45,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CDataBase.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,6 +60,7 @@
     <None Include="res\QuestionBankManagementSystem.rc2">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="config.json" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Question-Bank-Management-System.ico">

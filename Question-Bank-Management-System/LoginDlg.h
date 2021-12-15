@@ -14,7 +14,7 @@ public:
 
 // 对话框数据
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_QUESTIONBANKMANAGEMENTSYSTEM_DIALOG };
+	enum { IDD = IDD_LOGIN_DIALOG};
 #endif
 
 	protected:
@@ -33,4 +33,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnEnChangeEditTeacherId();
+	afx_msg void OnBnClickedOk();
 };
