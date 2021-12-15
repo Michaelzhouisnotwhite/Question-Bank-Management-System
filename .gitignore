@@ -9,6 +9,14 @@
 *.user
 *.userosscache
 *.sln.docstates
+.vscode
+__pycache__
+build
+dist
+./ReadJson/config
+./ReadJson/config_output
+getconfigration.spec
+!getconfigration.exe
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
