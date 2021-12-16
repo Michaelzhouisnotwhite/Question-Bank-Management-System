@@ -17,7 +17,8 @@ dist
 ./ReadJson/config_output
 getconfigration.spec
 !getconfigration.exe
-
+save_pic_from_clipboard.py
+save_pic_from_clipboard.json
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
