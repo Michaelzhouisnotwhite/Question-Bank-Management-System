@@ -10,21 +10,39 @@ class CDataBase
 	char* db_host = nullptr;
 	char* db_database = nullptr;
 	unsigned int db_port = 3306;
+	const CString login_table = L"teacher";
 
 public:
 	static constexpr int USERNAME_WRONG = 1;
 	static constexpr int USERNAME_RIGHT = 2;
 	static constexpr int PSW_WRONG = 3;
 	static constexpr int PSW_RIGHT = 4;
+	static constexpr int EXICUTE_ERROR=-1;
+
 	MYSQL_RES* res{};
 	MYSQL_ROW row{};
 	MYSQL mysqlCon{};
 	CDataBase();
-	~CDataBase();
+
+	virtual ~CDataBase();
+
 	int ExecuteSql(const CString& sCommand);
+	int ExecuteRealSql(const CString& sCommand);
+
 	static inline char* CStringToChar(const CString& cstr);
 	static inline CString CharToCString(const char* str);
 	static inline CString AddSingleQuotesToCString(const CString& cstr);
 	static inline CString AddParenthesesToCstring(const CString& cstr);
-	int SearchUserNamePsw(const CString& user_name, const CString& user_psw);
+	int SearchUserIdPsw(const CString& user_id, const CString& user_psw);
+
+};
+
+class CDataBaseTeacher final :CDataBase
+{
+	CString teacher_id;
+public:
+	explicit CDataBaseTeacher(CString id);
+	~CDataBaseTeacher() override;
+	int Filter(CString q_type, CString q_chapter, CString q_class);
+	int AddQ(CString q_type, CString q_chapter, CString q_class, CString q_answer);
 };

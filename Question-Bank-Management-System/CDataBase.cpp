@@ -25,6 +25,7 @@ CDataBase::~CDataBase()
 	delete[] db_host;
 	delete[] db_database;
 	mysql_close(&mysqlCon);
+	mysql_free_result(res);
 }
 
 /**
@@ -40,6 +41,14 @@ int CDataBase::ExecuteSql(const CString& sCommand)
 	return ress;
 }
 
+int CDataBase::ExecuteRealSql(const CString& sCommand)
+{
+	auto command = CStringToChar(sCommand);
+	int ress = mysql_real_query(&mysqlCon, command, static_cast<unsigned long>(strlen(command)));
+	delete[] command;
+	return ress;
+}
+
 /**
  * \brief 连接数据库
  */
@@ -50,7 +59,7 @@ CDataBase::CDataBase()
 	db_user = CStringToChar(cd.cstr_list[0]);
 	db_pswd = CStringToChar(cd.cstr_list[1]);
 	db_host = CStringToChar(cd.cstr_list[2]);
-	// db_database = CStringToChar(cd.cstr_list[3]);
+	db_database = CStringToChar(cd.cstr_list[3]);
 
 	mysql_init(&mysqlCon);
 	if (!mysql_real_connect(&mysqlCon, db_host, db_user, db_pswd, db_database, db_port, nullptr, 0))
@@ -95,28 +104,64 @@ inline CString CDataBase::AddParenthesesToCstring(const CString& cstr)
 
 /**
  * \brief 查询用户名是否存在
- * \param user_name 待查用户名
+ * \param user_id 待查id
+ * \param user_psw 密码
  * \return 是否查询正确
  */
-int CDataBase::SearchUserNamePsw(const CString& user_name, const CString& user_psw)
+int CDataBase::SearchUserIdPsw(const CString& user_id, const CString& user_psw)
 {
-	CString select = _T("select user_name  FROM login_info  where user_name=");
-	CString where = L"\'" + user_name + L"\'";
+	CString select = L"select teacher_id, teacher_psw FROM " + login_table + L" where teacher_id=";
+
+	CString where(user_id);
 	CString sCombine = select + where;
 
-	// int ress = ExecuteSql(sCombine);
-	// if (ress == 0)
-	// {
-	// 	res = mysql_store_result(&mysqlCon);
-	// 	if (mysql_num_rows(res) == 0)
-	// 	{
-			return FALSE;
-	// 	}
-	// 	row = mysql_fetch_row(res);
-	// 	// this->user_name = user_name;
-	// 	return TRUE;
-	// }
-	//
-	//
-	// return -1;
+	int return_code;
+	int ress = ExecuteSql(sCombine);
+	if (ress == 0)
+	{
+		res = mysql_store_result(&mysqlCon);
+		if (mysql_num_rows(res) == 0)
+		{
+			return_code = USERNAME_WRONG;
+		}
+		else
+		{
+			// return_code = USERNAME_RIGHT;
+			row = mysql_fetch_row(res);
+
+			char* psw = row[1];
+			if (CharToCString(psw) == user_psw)
+			{
+				return_code =  PSW_RIGHT;
+			}
+			else
+			{
+				return_code = PSW_WRONG;
+			}
+		}
+	}
+	else
+	{
+		return_code = EXICUTE_ERROR;
+	}
+	return return_code;
+}
+
+
+CDataBaseTeacher::CDataBaseTeacher(const CString id):teacher_id(id)
+{
+
+}
+
+CDataBaseTeacher::~CDataBaseTeacher()
+=default;
+
+int CDataBaseTeacher::Filter(CString q_type, CString q_chapter, CString q_class)
+{
+	return 0;
+}
+
+int CDataBaseTeacher::AddQ(CString q_type, CString q_chapter, CString q_class, CString q_answer)
+{
+	return 0;
 }

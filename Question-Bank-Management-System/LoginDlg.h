@@ -36,9 +36,9 @@ public:
 	afx_msg void OnEnChangeEditTeacherId();
 	afx_msg void OnBnClickedOk();
 
-	CDataBase cdb;
 	afx_msg void OnStnClickedStaticLogPic();
 	afx_msg void OnStnClickedStaticTitle();
-	CString m_sID;
+//	unsigned long m_nID;
 	CString m_sPsw;
+	CString m_sId;
 };

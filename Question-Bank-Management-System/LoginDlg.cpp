@@ -50,7 +50,8 @@ END_MESSAGE_MAP()
 
 CLoginDlg::CLoginDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_QUESTIONBANKMANAGEMENTSYSTEM_DIALOG, pParent)
-	  , m_sID(_T(""))
+
+	  , m_sId(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
 }
@@ -58,8 +59,8 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=nullptr*/)
 void CLoginDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Text(pDX, IDC_EDIT_TEACHER_ID, m_sID);
 	DDX_Text(pDX, IDC_EDIT_PSW, m_sPsw);
+	DDX_Text(pDX, IDC_EDIT_TEACHER_ID, m_sId);
 }
 
 BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
@@ -112,7 +113,7 @@ BOOL CLoginDlg::OnInitDialog()
 	CFont tmpFont;
 	tmpFont.CreatePointFont(60, L"黑体", nullptr);
 	GetDlgItem(IDC_STATIC_TITLE)->SetFont(&tmpFont);
-
+	GetDlgItem(IDC_EDIT_TEACHER_ID)->SetWindowTextW(L"");
 	return TRUE; // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -180,22 +181,31 @@ void CLoginDlg::OnEnChangeEditTeacherId()
 void CLoginDlg::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	BOOL isFind = cdb.SearchUserNamePsw(m_sID, m_sPsw);
-	if (isFind == CDataBase::USERNAME_RIGHT)
+	UpdateData(TRUE);
+
+	CDataBase cdb;
+
+	int isFind = cdb.SearchUserIdPsw(m_sId, m_sPsw);
+	if (isFind == CDataBase::USERNAME_WRONG)
+	{
+		MessageBoxW(L"教工号未登记", L"", MB_OK | MB_ICONERROR);
+		GetDlgItem(IDC_EDIT_TEACHER_ID)->SetFocus();
+	}
+	else
 	{
 		if (isFind == CDataBase::PSW_RIGHT)
 		{
-			AfxMessageBox(L"登录成功", MB_OK);
+			MessageBoxW(L"登录成功", L"", MB_OK | MB_ICONINFORMATION);
+
 			CDialogEx::OnOK();
 		}
 		else
 		{
-			AfxMessageBox(L"密码错误", MB_OK);
+			MessageBoxW(L"密码错误", L"", MB_OK | MB_ICONERROR);
+			auto edit = static_cast<CEdit*>(GetDlgItem(IDC_EDIT_PSW));
+			edit->SetWindowTextW(L"");
+			edit->SetFocus();
 		}
-	}
-	else
-	{
-		AfxMessageBox(L"用户名错误", MB_OK);
 	}
 }
 

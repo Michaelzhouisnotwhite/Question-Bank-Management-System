@@ -185,8 +185,10 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAddChoiceDlg.h" />
     <ClInclude Include="CDataBase.h" />
     <ClInclude Include="CDoc.h" />
+    <ClInclude Include="CMainWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="pch.h" />
@@ -195,8 +197,10 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAddChoiceDlg.cpp" />
     <ClCompile Include="CDataBase.cpp" />
     <ClCompile Include="CDoc.cpp" />
+    <ClCompile Include="CMainWindow.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
