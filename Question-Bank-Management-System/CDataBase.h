@@ -12,15 +12,19 @@ class CDataBase
 	unsigned int db_port = 3306;
 
 public:
+	static constexpr int USERNAME_WRONG = 1;
+	static constexpr int USERNAME_RIGHT = 2;
+	static constexpr int PSW_WRONG = 3;
+	static constexpr int PSW_RIGHT = 4;
 	MYSQL_RES* res{};
 	MYSQL_ROW row{};
 	MYSQL mysqlCon{};
 	CDataBase();
 	~CDataBase();
-	int ExecuteSql(CString& sCommand);
-	static inline char* CStringToChar(CString& cstr);
+	int ExecuteSql(const CString& sCommand);
+	static inline char* CStringToChar(const CString& cstr);
 	static inline CString CharToCString(const char* str);
 	static inline CString AddSingleQuotesToCString(const CString& cstr);
 	static inline CString AddParenthesesToCstring(const CString& cstr);
-	BOOL SearchUserName(const CString& user_name);
+	int SearchUserNamePsw(const CString& user_name, const CString& user_psw);
 };

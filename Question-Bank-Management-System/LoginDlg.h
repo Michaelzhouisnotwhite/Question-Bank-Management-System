@@ -37,4 +37,8 @@ public:
 	afx_msg void OnBnClickedOk();
 
 	CDataBase cdb;
+	afx_msg void OnStnClickedStaticLogPic();
+	afx_msg void OnStnClickedStaticTitle();
+	CString m_sID;
+	CString m_sPsw;
 };

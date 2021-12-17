@@ -216,6 +216,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\icon1.ico" />
+    <Image Include="res\pic01.bmp" />
+    <Image Include="res\pic01.png" />
     <Image Include="res\Question-Bank-Management-System.ico" />
     <Image Include="res\图片1.ico" />
   </ItemGroup>

@@ -1,5 +1,4 @@
-﻿
-// LoginDlg.cpp: 实现文件
+﻿// LoginDlg.cpp: 实现文件
 //
 
 #include "pch.h"
@@ -20,15 +19,15 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// 对话框数据
+	// 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV 支持
 
-// 实现
+	// 实现
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -49,9 +48,9 @@ END_MESSAGE_MAP()
 // CLoginDlg 对话框
 
 
-
 CLoginDlg::CLoginDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_QUESTIONBANKMANAGEMENTSYSTEM_DIALOG, pParent)
+	  , m_sID(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
 }
@@ -59,6 +58,8 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=nullptr*/)
 void CLoginDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_EDIT_TEACHER_ID, m_sID);
+	DDX_Text(pDX, IDC_EDIT_PSW, m_sPsw);
 }
 
 BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
@@ -67,6 +68,8 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_EN_CHANGE(IDC_EDIT_TEACHER_ID, &CLoginDlg::OnEnChangeEditTeacherId)
 	ON_BN_CLICKED(IDOK, &CLoginDlg::OnBnClickedOk)
+	ON_STN_CLICKED(IDC_STATIC_LOG_PIC, &CLoginDlg::OnStnClickedStaticLogPic)
+	ON_STN_CLICKED(IDC_STATIC_TITLE, &CLoginDlg::OnStnClickedStaticTitle)
 END_MESSAGE_MAP()
 
 
@@ -98,12 +101,19 @@ BOOL CLoginDlg::OnInitDialog()
 
 	// 设置此对话框的图标。  当应用程序主窗口不是对话框时，框架将自动
 	//  执行此操作
-	SetIcon(m_hIcon, TRUE);			// 设置大图标
-	SetIcon(m_hIcon, FALSE);		// 设置小图标
+	SetIcon(m_hIcon, TRUE); // 设置大图标
+	SetIcon(m_hIcon, FALSE); // 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	auto p = static_cast<CStatic*>(GetDlgItem(IDC_STATIC_LOG_PIC));
+	// NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+	p->MoveWindow(10, 10, 210, 190);
 
-	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
+	CFont tmpFont;
+	tmpFont.CreatePointFont(60, L"黑体", nullptr);
+	GetDlgItem(IDC_STATIC_TITLE)->SetFont(&tmpFont);
+
+	return TRUE; // 除非将焦点设置到控件，否则返回 TRUE
 }
 
 void CLoginDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -156,7 +166,6 @@ HCURSOR CLoginDlg::OnQueryDragIcon()
 }
 
 
-
 void CLoginDlg::OnEnChangeEditTeacherId()
 {
 	// TODO:  如果该控件是 RICHEDIT 控件，它将不
@@ -171,5 +180,33 @@ void CLoginDlg::OnEnChangeEditTeacherId()
 void CLoginDlg::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	CDialogEx::OnOK();
+	BOOL isFind = cdb.SearchUserNamePsw(m_sID, m_sPsw);
+	if (isFind == CDataBase::USERNAME_RIGHT)
+	{
+		if (isFind == CDataBase::PSW_RIGHT)
+		{
+			AfxMessageBox(L"登录成功", MB_OK);
+			CDialogEx::OnOK();
+		}
+		else
+		{
+			AfxMessageBox(L"密码错误", MB_OK);
+		}
+	}
+	else
+	{
+		AfxMessageBox(L"用户名错误", MB_OK);
+	}
+}
+
+
+void CLoginDlg::OnStnClickedStaticLogPic()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CLoginDlg::OnStnClickedStaticTitle()
+{
+	// TODO: 在此添加控件通知处理程序代码
 }

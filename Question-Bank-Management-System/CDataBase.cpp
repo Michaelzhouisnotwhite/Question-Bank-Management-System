@@ -14,22 +14,6 @@ BOOL OpenExeFile(LPCWSTR mode, LPCWSTR filename)
 	return ret;
 }
 
-/**
- * \brief 连接数据库
- */
-// CDataBase::CDataSource()
-// {
-// 	mysql_init(&mysqlCon);
-// 	if (!mysql_real_connect(&mysqlCon, host, user, pswd, database, port, nullptr, 0))
-// 	{
-// 		AfxMessageBox(L"访问数据库失败!");
-// 	}
-// 	else
-// 	{
-// 		// mysql_query(&mysqlCon, "SET character set UTF8"); //设置字符集
-// 		mysql_set_character_set(&mysqlCon, "GBK");
-// 	}
-// }
 
 /**
  * \brief 关闭数据库
@@ -48,7 +32,7 @@ CDataBase::~CDataBase()
  * \param sCommand sql语句
  * \return 是否执行成狗
  */
-int CDataBase::ExecuteSql(CString& sCommand)
+int CDataBase::ExecuteSql(const CString& sCommand)
 {
 	auto command = CStringToChar(sCommand);
 	int ress = mysql_query(&mysqlCon, command);
@@ -56,6 +40,9 @@ int CDataBase::ExecuteSql(CString& sCommand)
 	return ress;
 }
 
+/**
+ * \brief 连接数据库
+ */
 CDataBase::CDataBase()
 {
 	// OpenExeFile(L"open", L"getconfigration.exe");
@@ -77,16 +64,13 @@ CDataBase::CDataBase()
 	}
 }
 
-/**
- * \brief 在两边添加单引号
- */
-inline char* CDataBase::CStringToChar(CString& cstr)
+inline char* CDataBase::CStringToChar(const CString& cstr)
 {
-	unsigned len = WideCharToMultiByte(CP_ACP, 0, cstr, cstr.GetLength(),NULL, 0,NULL,NULL);
-	auto pFileName = new char[static_cast<long>(len + 1)];
-	WideCharToMultiByte(CP_ACP, 0, cstr, cstr.GetLength(), pFileName, len,NULL,NULL);
-	pFileName[len] = '\0';
-	return pFileName;
+	unsigned len = WideCharToMultiByte(CP_ACP, 0, cstr, cstr.GetLength(), nullptr, 0, nullptr, nullptr);
+	auto mb_char = new char[static_cast<long>(len + 1)];
+	WideCharToMultiByte(CP_ACP, 0, cstr, cstr.GetLength(), mb_char, static_cast<int>(len), nullptr, nullptr);
+	mb_char[len] = '\0';
+	return mb_char;
 }
 
 CString CDataBase::CharToCString(const char* str)
@@ -94,6 +78,10 @@ CString CDataBase::CharToCString(const char* str)
 	return CString(str);
 }
 
+
+/**
+ * \brief 在两边添加单引号
+ */
 inline CString CDataBase::AddSingleQuotesToCString(const CString& cstr)
 {
 	return L"\'" + cstr + L"\'";
@@ -110,25 +98,25 @@ inline CString CDataBase::AddParenthesesToCstring(const CString& cstr)
  * \param user_name 待查用户名
  * \return 是否查询正确
  */
-BOOL CDataBase::SearchUserName(const CString& user_name)
+int CDataBase::SearchUserNamePsw(const CString& user_name, const CString& user_psw)
 {
 	CString select = _T("select user_name  FROM login_info  where user_name=");
 	CString where = L"\'" + user_name + L"\'";
 	CString sCombine = select + where;
 
-	int ress = ExecuteSql(sCombine);
-	if (ress == 0)
-	{
-		res = mysql_store_result(&mysqlCon);
-		if (mysql_num_rows(res) == 0)
-		{
+	// int ress = ExecuteSql(sCombine);
+	// if (ress == 0)
+	// {
+	// 	res = mysql_store_result(&mysqlCon);
+	// 	if (mysql_num_rows(res) == 0)
+	// 	{
 			return FALSE;
-		}
-		row = mysql_fetch_row(res);
-		// this->user_name = user_name;
-		return TRUE;
-	}
-
-
-	return -1;
+	// 	}
+	// 	row = mysql_fetch_row(res);
+	// 	// this->user_name = user_name;
+	// 	return TRUE;
+	// }
+	//
+	//
+	// return -1;
 }

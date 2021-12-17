@@ -79,5 +79,11 @@
     <Image Include="res\图片1.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\pic01.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\pic01.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

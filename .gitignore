@@ -19,8 +19,10 @@ getconfigration.spec
 !getconfigration.exe
 save_pic_from_clipboard.py
 save_pic_from_clipboard.json
+.idea
+
 # User-specific files (MonoDevelop/Xamarin Studio)
-*.userprefs
+*.userprefse
 
 # Mono auto generated files
 mono_crash.*
