@@ -25,7 +25,6 @@ CDataBase::~CDataBase()
 	delete[] db_host;
 	delete[] db_database;
 	mysql_close(&mysqlCon);
-	mysql_free_result(res);
 }
 
 /**
@@ -112,14 +111,14 @@ int CDataBase::SearchUserIdPsw(const CString& user_id, const CString& user_psw)
 {
 	CString select = L"select teacher_id, teacher_psw FROM " + login_table + L" where teacher_id=";
 
-	CString where(user_id);
+	const CString& where = user_id;
 	CString sCombine = select + where;
 
 	int return_code;
 	int ress = ExecuteSql(sCombine);
 	if (ress == 0)
 	{
-		res = mysql_store_result(&mysqlCon);
+		MYSQL_RES* res = mysql_store_result(&mysqlCon);
 		if (mysql_num_rows(res) == 0)
 		{
 			return_code = USERNAME_WRONG;
@@ -127,41 +126,23 @@ int CDataBase::SearchUserIdPsw(const CString& user_id, const CString& user_psw)
 		else
 		{
 			// return_code = USERNAME_RIGHT;
-			row = mysql_fetch_row(res);
+			MYSQL_ROW row = mysql_fetch_row(res);
 
 			char* psw = row[1];
 			if (CharToCString(psw) == user_psw)
 			{
-				return_code =  PSW_RIGHT;
+				return_code = PSW_RIGHT;
 			}
 			else
 			{
 				return_code = PSW_WRONG;
 			}
 		}
+		mysql_free_result(res);
 	}
 	else
 	{
 		return_code = EXICUTE_ERROR;
 	}
 	return return_code;
-}
-
-
-CDataBaseTeacher::CDataBaseTeacher(const CString id):teacher_id(id)
-{
-
-}
-
-CDataBaseTeacher::~CDataBaseTeacher()
-=default;
-
-int CDataBaseTeacher::Filter(CString q_type, CString q_chapter, CString q_class)
-{
-	return 0;
-}
-
-int CDataBaseTeacher::AddQ(CString q_type, CString q_chapter, CString q_class, CString q_answer)
-{
-	return 0;
 }

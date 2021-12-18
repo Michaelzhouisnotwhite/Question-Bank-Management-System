@@ -2,6 +2,7 @@
 // Microsoft Visual C++ 生成的包含文件。
 // 供 QuestionBankManagementSystem.rc 使用
 //
+#define ID_MENU                         4
 #define IDM_ABOUTBOX                    0x0010
 #define IDD_ABOUTBOX                    100
 #define IDS_ABOUTBOX                    101
@@ -13,8 +14,11 @@
 #define IDB_BITMAP1                     134
 #define IDD_DLG_ADDQ                    136
 #define IDD_CHOICE_ADD_DLG              138
-#define IDD_                            140
-#define IDD_COMPLETION_DLG              140
+#define IDD_COMPLETE_DLG                142
+#define IDD_JUDGEMENT_DLG               147
+#define IDD_DIALOG1                     149
+#define IDD_DIALOG2                     150
+#define IDD_PREVIEW_PAPER_DLG           150
 #define IDC_EDIT_TEACHER_ID             1000
 #define IDC_EDIT_PSW                    1001
 #define IDC_STATIC_LOG_PIC              1002
@@ -38,14 +42,30 @@
 #define IDC_EDIT2                       1031
 #define IDC_EDIT3                       1032
 #define IDC_EDIT4                       1033
+#define IDC_EDIT5                       1034
+#define IDC_RADIO_A                     1034
+#define IDC_RADIO_B                     1035
+#define IDC_RADIO_C                     1036
+#define IDC_RADIO_RIGHT                 1036
+#define IDC_RADIO_D                     1037
+#define IDC_RADIO_WRONG                 1037
+#define ID_32771                        32771
+#define ID_32772                        32772
+#define ID_32773                        32773
+#define ID_32774                        32774
+#define ID_32775                        32775
+#define ID_32776                        32776
+#define ID_32777                        32777
+#define ID_32778                        32778
+#define ID_32779                        32779
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        142
-#define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1031
+#define _APS_NEXT_RESOURCE_VALUE        153
+#define _APS_NEXT_COMMAND_VALUE         32780
+#define _APS_NEXT_CONTROL_VALUE         1037
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

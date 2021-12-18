@@ -19,6 +19,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="添加题目">
+      <UniqueIdentifier>{fe99808e-8576-4b6a-80fa-9fa39d561fbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Question-Bank-Management-System.h">
@@ -45,10 +48,22 @@
     <ClInclude Include="LoginDlg.h">
       <Filter>登录窗口</Filter>
     </ClInclude>
-    <ClInclude Include="CMainWindow.h">
+    <ClInclude Include="CChoiceDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CDataBaseUser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainWinDlg.h">
       <Filter>主窗口</Filter>
     </ClInclude>
-    <ClInclude Include="CAddChoiceDlg.h">
+    <ClInclude Include="CAddQDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CCompletionDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CJudgmentDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,10 +83,22 @@
     <ClCompile Include="LoginDlg.cpp">
       <Filter>登录窗口</Filter>
     </ClCompile>
-    <ClCompile Include="CMainWindow.cpp">
+    <ClCompile Include="CChoiceDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CDataBaseUser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainWinDlg.cpp">
       <Filter>主窗口</Filter>
     </ClCompile>
-    <ClCompile Include="CAddChoiceDlg.cpp">
+    <ClCompile Include="CAddQDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CCompletionDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CJudgmentDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

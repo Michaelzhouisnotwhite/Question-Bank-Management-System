@@ -1,11 +1,13 @@
-﻿
-// Question-Bank-Management-System.cpp: 定义应用程序的类行为。
+﻿// Question-Bank-Management-System.cpp: 定义应用程序的类行为。
 //
 
 #include "pch.h"
 #include "framework.h"
 #include "Question-Bank-Management-System.h"
+
+#include "CChoiceDlg.h"
 #include "LoginDlg.h"
+#include "CMainWinDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -52,12 +54,12 @@ BOOL CSystemApp::InitInstance()
 
 	CWinApp::InitInstance();
 
-
+	AfxInitRichEdit2();
 	AfxEnableControlContainer();
 
 	// 创建 shell 管理器，以防对话框包含
 	// 任何 shell 树视图控件或 shell 列表视图控件。
-	CShellManager *pShellManager = new CShellManager;
+	CShellManager* pShellManager = new CShellManager;
 
 	// 激活“Windows Native”视觉管理器，以便在 MFC 控件中启用主题
 	CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
@@ -72,12 +74,22 @@ BOOL CSystemApp::InitInstance()
 	SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
 
 	CLoginDlg dlg;
-	m_pMainWnd = &dlg;
+	// m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
+	// INT_PTR nResponse = IDOK;
 	if (nResponse == IDOK)
 	{
 		// TODO: 在此放置处理何时用
 		//  “确定”来关闭对话框的代码
+		CMainWinDlg cmwdlg;
+
+		cmwdlg.m_sid = L"123";
+		// cmwdlg.m_sid = dlg.m_sId;
+		m_pMainWnd = &cmwdlg;
+		INT_PTR rsp = cmwdlg.DoModal();
+		if (rsp == IDOK)
+		{
+		}
 	}
 	else if (nResponse == IDCANCEL)
 	{
@@ -104,4 +116,3 @@ BOOL CSystemApp::InitInstance()
 	//  而不是启动应用程序的消息泵。
 	return FALSE;
 }
-

@@ -2,15 +2,15 @@
 #include "afxdialogex.h"
 
 
-// CAddChoiceDlg 对话框
+// CAddQDlg 对话框
 
-class CAddChoiceDlg : public CDialogEx
+class CAddQDlg : public CDialogEx
 {
-	DECLARE_DYNAMIC(CAddChoiceDlg)
+	DECLARE_DYNAMIC(CAddQDlg)
 
 public:
-	CAddChoiceDlg(CWnd* pParent = nullptr);   // 标准构造函数
-	virtual ~CAddChoiceDlg();
+	CAddQDlg(CWnd* pParent = nullptr);   // 标准构造函数
+	virtual ~CAddQDlg();
 
 // 对话框数据
 #ifdef AFX_DESIGN_TIME

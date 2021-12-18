@@ -19,8 +19,7 @@ public:
 	static constexpr int PSW_RIGHT = 4;
 	static constexpr int EXICUTE_ERROR=-1;
 
-	MYSQL_RES* res{};
-	MYSQL_ROW row{};
+
 	MYSQL mysqlCon{};
 	CDataBase();
 
@@ -35,14 +34,4 @@ public:
 	static inline CString AddParenthesesToCstring(const CString& cstr);
 	int SearchUserIdPsw(const CString& user_id, const CString& user_psw);
 
-};
-
-class CDataBaseTeacher final :CDataBase
-{
-	CString teacher_id;
-public:
-	explicit CDataBaseTeacher(CString id);
-	~CDataBaseTeacher() override;
-	int Filter(CString q_type, CString q_chapter, CString q_class);
-	int AddQ(CString q_type, CString q_chapter, CString q_class, CString q_answer);
 };

@@ -1,0 +1,24 @@
+﻿#pragma once
+#include "afxdialogex.h"
+
+
+// CCompletionDlg 对话框
+
+class CCompletionDlg : public CDialogEx
+{
+	DECLARE_DYNAMIC(CCompletionDlg)
+
+public:
+	CCompletionDlg(CWnd* pParent = nullptr);   // 标准构造函数
+	virtual ~CCompletionDlg();
+
+// 对话框数据
+#ifdef AFX_DESIGN_TIME
+	enum { IDD = IDD_COMPLETE_DLG };
+#endif
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+
+	DECLARE_MESSAGE_MAP()
+};

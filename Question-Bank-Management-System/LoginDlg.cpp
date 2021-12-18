@@ -5,6 +5,8 @@
 #include "framework.h"
 #include "Question-Bank-Management-System.h"
 #include "LoginDlg.h"
+
+#include "CMainWinDlg.h"
 #include "afxdialogex.h"
 
 #ifdef _DEBUG
@@ -30,6 +32,8 @@ protected:
 	// 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+//	afx_msg void OnClickedMenuShortAnswer();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -42,6 +46,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	// ON_COMMAND(ID_32775, &CAboutDlg::OnClickedMenuShortAnswer)
 END_MESSAGE_MAP()
 
 
@@ -220,3 +225,9 @@ void CLoginDlg::OnStnClickedStaticTitle()
 {
 	// TODO: 在此添加控件通知处理程序代码
 }
+
+
+//void CAboutDlg::OnClickedMenuShortAnswer()
+//{
+//	// TODO: 在此添加命令处理程序代码
+//}
