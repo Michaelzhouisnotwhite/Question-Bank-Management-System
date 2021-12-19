@@ -18,6 +18,7 @@ public:
 	static constexpr int PSW_WRONG = 3;
 	static constexpr int PSW_RIGHT = 4;
 	static constexpr int EXICUTE_ERROR=-1;
+	static constexpr int EXICUTE_SUCCESS = 1111;
 
 
 	MYSQL mysqlCon{};
@@ -28,10 +29,10 @@ public:
 	int ExecuteSql(const CString& sCommand);
 	int ExecuteRealSql(const CString& sCommand);
 
-	static inline char* CStringToChar(const CString& cstr);
-	static inline CString CharToCString(const char* str);
-	static inline CString AddSingleQuotesToCString(const CString& cstr);
-	static inline CString AddParenthesesToCstring(const CString& cstr);
+	static  char* CStringToChar(const CString& cstr);
+	static  CString CharToCString(const char* str);
+	static  CString AddSingleQuotesToCString(const CString& cstr);
+	static  CString AddParenthesesToCstring(const CString& cstr);
 	int SearchUserIdPsw(const CString& user_id, const CString& user_psw);
 
 };

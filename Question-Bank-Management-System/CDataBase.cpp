@@ -72,7 +72,7 @@ CDataBase::CDataBase()
 	}
 }
 
-inline char* CDataBase::CStringToChar(const CString& cstr)
+char* CDataBase::CStringToChar(const CString& cstr)
 {
 	unsigned len = WideCharToMultiByte(CP_ACP, 0, cstr, cstr.GetLength(), nullptr, 0, nullptr, nullptr);
 	auto mb_char = new char[static_cast<long>(len + 1)];
@@ -90,13 +90,13 @@ CString CDataBase::CharToCString(const char* str)
 /**
  * \brief 在两边添加单引号
  */
-inline CString CDataBase::AddSingleQuotesToCString(const CString& cstr)
+CString CDataBase::AddSingleQuotesToCString(const CString& cstr)
 {
 	return L"\'" + cstr + L"\'";
 }
 
 // 两边添加括号
-inline CString CDataBase::AddParenthesesToCstring(const CString& cstr)
+CString CDataBase::AddParenthesesToCstring(const CString& cstr)
 {
 	return L"(" + cstr + L")";
 }

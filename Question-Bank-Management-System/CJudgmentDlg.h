@@ -21,4 +21,19 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedOk();
+	BOOL OnInitDialog() override;
+
+
+	void InitDlg();
+	BOOL m_isReadable = TRUE;
+	CRichEditCtrl m_edit;
+	CButton m_radio_right;
+	CButton m_radio_wrong;
+
+	CString m_sText;
+	CString m_sAnswer;
+
+	void Set(CString content, CString answer);
 };

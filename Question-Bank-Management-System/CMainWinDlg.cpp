@@ -32,6 +32,8 @@ void CMainWinDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST_Q, m_table);
 	DDX_Control(pDX, IDC_COMBO_QTYPE, m_qtype);
+	DDX_Control(pDX, IDC_COMBO_QCLASS, m_qclass);
+	DDX_Control(pDX, IDC_COMBO_QCHAPTER, m_qchapter);
 }
 
 
@@ -46,6 +48,7 @@ BEGIN_MESSAGE_MAP(CMainWinDlg, CDialogEx)
 	ON_COMMAND(ID_32774, &CMainWinDlg::OnClickedMenuAddCompletion)
 	ON_COMMAND(ID_32776, &CMainWinDlg::OnClickedMenuJudgment)
 	ON_COMMAND(ID_32779, &CMainWinDlg::OnClickedToPaper)
+	ON_COMMAND(ID_32780, &CMainWinDlg::OnClickedMenuCheck)
 END_MESSAGE_MAP()
 
 
@@ -58,16 +61,29 @@ BOOL CMainWinDlg::OnInitDialog()
 
 	// TODO:  在此添加额外的初始化
 	AfxInitRichEdit();
+	AfxInitRichEdit2();
+
+	InitDataBase();
+
 	InitListCtrl();
-	
-	InitListTable();
+
 	InitComboQtype();
 
-	InitComboQchapter();
+	// InitComboQchapter();
 
 	InitComboQclass();
 
-	dbsu.teacher_id = m_sid;
+	// m_table.InsertColumn(0, L"id", LVCFMT_CENTER, 0);
+	// m_nCols++;
+
+	m_table.InsertColumn(0, L"题号", LVCFMT_CENTER, 50);
+	m_nCols++;
+	m_table.InsertColumn(1, L"题目内容", LVCFMT_LEFT, 1000);
+	m_nCols++;
+
+	InitListTable();
+	// m_qchapter.EnableWindow(FALSE);
+
 	return TRUE; // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
 }
@@ -98,18 +114,26 @@ void CMainWinDlg::InitListCtrl()
 void CMainWinDlg::OnCbnSelchangeComboQtype()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	InitListTable();
 }
 
 
 void CMainWinDlg::OnCbnSelchangeComboQchapter()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	InitListTable();
 }
 
 
 void CMainWinDlg::OnCbnSelchangeComboQclass()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	int cur_sel = m_qclass.GetCurSel();
+	CString data;
+	m_qclass.GetLBText(cur_sel, data);
+	InitComboQchapter(data);
+
+	InitListTable();
 }
 
 
@@ -158,6 +182,7 @@ void CMainWinDlg::OnClickedMenuJudgment()
 {
 	// TODO: 在此添加命令处理程序代码
 	CJudgmentDlg dlg;
+	dlg.m_isReadable = TRUE;
 	dlg.DoModal();
 }
 
@@ -165,6 +190,12 @@ void CMainWinDlg::OnClickedMenuJudgment()
 void CMainWinDlg::OnClickedToPaper()
 {
 	// TODO: 在此添加命令处理程序代码
+}
+
+void CMainWinDlg::InitDataBase()
+{
+	dbsu.teacher_id = m_sid;
+	dbsu.FindAuthorityClass();
 }
 
 void CMainWinDlg::InitComboQtype()
@@ -177,24 +208,133 @@ void CMainWinDlg::InitComboQtype()
 	m_qtype.SetCurSel(0);
 }
 
-void CMainWinDlg::InitComboQchapter()
+void CMainWinDlg::InitComboQchapter(const CString& data)
 {
+	m_qchapter.ResetContent();
+	dbsu.FindChapter(data);
+	if (dbsu.query_buffer.empty())
+	{
+		m_qchapter.AddString(L"没有该课程的章节号");
+	}
+	else
+	{
+		for (auto feild : dbsu.query_buffer)
+		{
+			m_qchapter.AddString(feild[0]);
+		}
+	}
+	m_qchapter.SetCurSel(0);
 }
 
 void CMainWinDlg::InitComboQclass()
 {
+	for (const auto& feild : dbsu.authority_class)
+	{
+		m_qclass.AddString(feild);
+	}
+	m_qclass.SetCurSel(0);
+
+	CString data;
+	m_qclass.GetLBText(0, data);
+	InitComboQchapter(data);
 }
 
 void CMainWinDlg::InitListTable()
 {
-	m_table.InsertColumn(0, L"id", LVCFMT_CENTER, 0);
+	CString q_type = GetComboBoxText(&m_qtype);
+	dbsu.query_buffer.clear();
+	m_table.DeleteAllItems();
+	for (int i = 2; i < 50; i++)
+	{
+		m_table.DeleteColumn(2);
+	}
+
+	m_nCols = 2;
+	if (q_type == L"判断题")
+	{
+		dbsu.FilterJudge(q_type, GetComboBoxText(&m_qchapter), GetComboBoxText(&m_qclass));
+		m_table.InsertColumn(2, L"答案", LVCFMT_LEFT, 100);
+		m_nCols++;
+	}
+	else if (q_type == L"简答题")
+	{
+	}
+	else if (q_type == L"填空题")
+	{
+		dbsu.FilterComplete(q_type, GetComboBoxText(&m_qchapter), GetComboBoxText(&m_qclass));
+		for (size_t i = 2; i < dbsu.query_feild.size(); i++)
+		{
+			m_table.InsertColumn(static_cast<int>(i), L"答案" + Int2CString(i - 1), LVCFMT_LEFT, 100);
+			m_nCols++;
+		}
+	}
+	else if (q_type == L"选择题")
+	{
+		dbsu.FilterChoice(q_type, GetComboBoxText(&m_qchapter), GetComboBoxText(&m_qclass));
+		for (size_t i = 2; i <= 5; i++)
+		{
+			m_table.InsertColumn(static_cast<int>(i), L"选项" + Int2CString(i - 1), LVCFMT_LEFT, 200);
+			m_nCols++;
+		}
+		m_table.InsertColumn(6, L"答案", LVCFMT_LEFT, 100);
+		m_nCols++;
+	}
 
 
-	m_table.InsertColumn(2, L"题目内容", LVCFMT_CENTER, 200);
-	m_table.InsertColumn(1, L"题号", LVCFMT_CENTER, 50);
+	for (size_t i = 0; i < dbsu.query_buffer.size(); i++)
+	{
+		auto row = dbsu.query_buffer[i];
+		m_table.InsertItem(i, L"");
+		for (size_t j = 0; j < row.size(); j++)
+		{
+			m_table.SetItemText(i, j, row[j]);
+		}
+	}
+}
 
-	m_table.InsertItem(0, L"");
-	m_table.SetItemText(0, 0, L"0");
-	m_table.SetItemText(0, 1, L"0");
-	m_table.SetItemText(0, 2, L"test");
+CString CMainWinDlg::GetComboBoxText(const CComboBox* box)
+{
+	CString str;
+	box->GetLBText(box->GetCurSel(), str);
+	return str;
+}
+
+
+void CMainWinDlg::OnClickedMenuCheck()
+{
+	// TODO: 在此添加命令处理程序代码
+	CString q_type = GetComboBoxText(&m_qtype);
+	if (q_type == L"判断题")
+	{
+		CJudgmentDlg dlg;
+		dlg.Set(m_table.GetItemText(GetSelectedRow(), 1), m_table.GetItemText(GetSelectedRow(), 2));
+		dlg.DoModal();
+	}
+	else if (q_type == L"简答题")
+	{
+	}
+	else if (q_type == L"填空题")
+	{
+		
+	}
+	else if (q_type == L"选择题")
+	{
+		
+	}
+
+}
+
+int CMainWinDlg::GetSelectedRow()
+{
+	int nIndex = -1;
+	for (int i = 0; i < m_table.GetItemCount(); i++)
+	{
+		if (m_table.GetItemState(i, LVIS_SELECTED) == LVIS_SELECTED)
+		{
+			CString str;
+			// str.Format(_T("选中了第%d行"), i);
+			nIndex = i;
+		}
+	}
+	return nIndex;
 }

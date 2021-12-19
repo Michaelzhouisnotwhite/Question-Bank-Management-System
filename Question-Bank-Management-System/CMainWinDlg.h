@@ -23,7 +23,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	virtual BOOL OnInitDialog();
+	BOOL OnInitDialog() override;
 	CString m_sid;
 	afx_msg void OnLvnItemchangedListQ(NMHDR* pNMHDR, LRESULT* pResult);
 //	afx_msg void OnBnClickedMenubtn1();
@@ -44,9 +44,27 @@ public:
 
 	CDataBaseUser dbsu;
 
+
+	void InitDataBase();
 	void InitComboQtype();
-	void InitComboQchapter();
+	void InitComboQchapter(const CString& data);
 	void InitComboQclass();
 
 	void InitListTable();
+
+	static CString GetComboBoxText(const CComboBox *box);
+	CComboBox m_qclass;
+	CComboBox m_qchapter;
+
+	int m_nCols = 0;
+	afx_msg void OnClickedMenuCheck();
+
+	int GetSelectedRow();
 };
+
+inline CString Int2CString(const uint64_t src)
+{
+	CString str;
+	str.Format(_T("%llu"), src);
+	return str;
+}

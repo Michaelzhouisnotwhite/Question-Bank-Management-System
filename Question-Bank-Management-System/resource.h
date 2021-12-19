@@ -17,7 +17,6 @@
 #define IDD_COMPLETE_DLG                142
 #define IDD_JUDGEMENT_DLG               147
 #define IDD_DIALOG1                     149
-#define IDD_DIALOG2                     150
 #define IDD_PREVIEW_PAPER_DLG           150
 #define IDC_EDIT_TEACHER_ID             1000
 #define IDC_EDIT_PSW                    1001
@@ -49,6 +48,8 @@
 #define IDC_RADIO_RIGHT                 1036
 #define IDC_RADIO_D                     1037
 #define IDC_RADIO_WRONG                 1037
+#define IDC_EDIT                        1038
+#define IDC_EDIT_CONTENT                1038
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -58,14 +59,15 @@
 #define ID_32777                        32777
 #define ID_32778                        32778
 #define ID_32779                        32779
+#define ID_32780                        32780
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        153
-#define _APS_NEXT_COMMAND_VALUE         32780
-#define _APS_NEXT_CONTROL_VALUE         1037
+#define _APS_NEXT_COMMAND_VALUE         32781
+#define _APS_NEXT_CONTROL_VALUE         1039
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

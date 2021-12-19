@@ -75,15 +75,15 @@ BOOL CSystemApp::InitInstance()
 
 	CLoginDlg dlg;
 	// m_pMainWnd = &dlg;
-	INT_PTR nResponse = dlg.DoModal();
-	// INT_PTR nResponse = IDOK;
+	// INT_PTR nResponse = dlg.DoModal();
+	INT_PTR nResponse = IDOK;
 	if (nResponse == IDOK)
 	{
 		// TODO: 在此放置处理何时用
 		//  “确定”来关闭对话框的代码
 		CMainWinDlg cmwdlg;
 
-		cmwdlg.m_sid = L"123";
+		cmwdlg.m_sid = L"120191082";
 		// cmwdlg.m_sid = dlg.m_sId;
 		m_pMainWnd = &cmwdlg;
 		INT_PTR rsp = cmwdlg.DoModal();
