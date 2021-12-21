@@ -87,6 +87,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>D:\Program Files %28x64%29\MySql\MySql Server8.0 Install\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>D:\Program Files %28x64%29\MySql\MySql Server8.0 Install\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -191,8 +193,10 @@
     <ClInclude Include="CDataBase.h" />
     <ClInclude Include="CDataBaseUser.h" />
     <ClInclude Include="CDoc.h" />
+    <ClInclude Include="CExamQSetDlg.h" />
     <ClInclude Include="CJudgmentDlg.h" />
     <ClInclude Include="CMainWinDlg.h" />
+    <ClInclude Include="CPaperPreviewDlg.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="pch.h" />
@@ -207,8 +211,10 @@
     <ClCompile Include="CDataBase.cpp" />
     <ClCompile Include="CDataBaseUser.cpp" />
     <ClCompile Include="CDoc.cpp" />
+    <ClCompile Include="CExamQSetDlg.cpp" />
     <ClCompile Include="CJudgmentDlg.cpp" />
     <ClCompile Include="CMainWinDlg.cpp" />
+    <ClCompile Include="CPaperPreviewDlg.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

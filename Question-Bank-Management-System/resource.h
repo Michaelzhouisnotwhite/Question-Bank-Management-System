@@ -2,6 +2,7 @@
 // Microsoft Visual C++ 生成的包含文件。
 // 供 QuestionBankManagementSystem.rc 使用
 //
+#define IDOK2                           3
 #define ID_MENU                         4
 #define IDM_ABOUTBOX                    0x0010
 #define IDD_ABOUTBOX                    100
@@ -18,6 +19,8 @@
 #define IDD_JUDGEMENT_DLG               147
 #define IDD_DIALOG1                     149
 #define IDD_PREVIEW_PAPER_DLG           150
+#define IDD_DLG_EXAM_SET                153
+#define IDD_DIALOG2                     155
 #define IDC_EDIT_TEACHER_ID             1000
 #define IDC_EDIT_PSW                    1001
 #define IDC_STATIC_LOG_PIC              1002
@@ -48,8 +51,13 @@
 #define IDC_RADIO_RIGHT                 1036
 #define IDC_RADIO_D                     1037
 #define IDC_RADIO_WRONG                 1037
-#define IDC_EDIT                        1038
-#define IDC_EDIT_CONTENT                1038
+#define IDC_BTN_2PAPER                  1039
+#define IDC_EDIT_CHOICE                 1040
+#define IDC_EDIT_COMPLETION             1041
+#define IDC_EDIT_JUDGE                  1042
+#define IDC_EDIT_SHORT_Q                1043
+#define IDC_REDIT1                      1044
+#define IDC_BTN_OUT                     1045
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -65,9 +73,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        153
+#define _APS_NEXT_RESOURCE_VALUE        157
 #define _APS_NEXT_COMMAND_VALUE         32781
-#define _APS_NEXT_CONTROL_VALUE         1039
+#define _APS_NEXT_CONTROL_VALUE         1046
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

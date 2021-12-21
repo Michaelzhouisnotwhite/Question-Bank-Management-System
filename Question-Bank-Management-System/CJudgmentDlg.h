@@ -34,6 +34,9 @@ public:
 
 	CString m_sText;
 	CString m_sAnswer;
+	CString m_sqid;
 
 	void Set(CString content, CString answer);
+	void SetQId(CString q_id);
+	afx_msg void OnBnClickedCancel();
 };

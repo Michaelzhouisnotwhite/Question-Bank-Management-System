@@ -31,6 +31,7 @@ void CJudgmentDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CJudgmentDlg, CDialogEx)
 	ON_BN_CLICKED(IDOK, &CJudgmentDlg::OnBnClickedOk)
+	ON_BN_CLICKED(IDCANCEL, &CJudgmentDlg::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -40,6 +41,15 @@ END_MESSAGE_MAP()
 void CJudgmentDlg::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	UpdateData(TRUE);
+	if (m_isReadable)
+	{
+	}
+	else
+	{
+		m_edit.GetWindowTextW(m_sText);
+		m_sAnswer.Format(_T("%d"), m_radio_right.GetCheck());
+	}
 	CDialogEx::OnOK();
 }
 
@@ -79,4 +89,16 @@ void CJudgmentDlg::Set(const CString content, const CString answer)
 {
 	m_sText = content;
 	m_sAnswer = answer;
+}
+
+void CJudgmentDlg::SetQId(CString q_id)
+{
+	m_sqid = q_id;
+}
+
+
+void CJudgmentDlg::OnBnClickedCancel()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CDialogEx::OnCancel();
 }

@@ -13,7 +13,23 @@ public:
 
 	std::vector<CString> authority_class;
 	std::vector<std::vector<CString>> query_buffer;
+
+	std::vector<std::vector<CString>> query_buffer_2;
+
+	struct ExamQueryBuffer
+	{
+		std::vector<std::vector<CString>> choice_content;
+		std::vector<std::vector<CString>> complete_content;
+		std::vector<std::vector<CString>> judge_content;
+		std::vector<std::vector<CString>> short_answer_content;
+		void clear();
+
+	};
+
+	ExamQueryBuffer m_exam_query_buffer;
+
 	std::vector<CString> query_feild;
+
 
 	struct DataBaseParam
 	{
@@ -32,6 +48,16 @@ public:
 	static char* StrCopy(char* src);
 	
 	int FindChapter(const CString& qclass);
+
+	int UpdataChoice(CString q_id, CString q_content, std::vector<CString> option_list, CString key);
+	int UpdateComplete(CString q_id, CString q_content, std::vector<CString> answer_list);
+	int UpdataJudge(CString q_id, CString q_content, CString key);
+
+	int GenSubQtype(CString nums, CString q_type, CString q_class);
+	CString GetSqlOfEachType(CString nums, CString q_type, CString q_class);
+
+	int InsertExamnation();
+
 };
 
 inline char* CDataBaseUser::StrCopy(char* src)

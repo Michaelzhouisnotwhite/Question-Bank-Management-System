@@ -59,12 +59,12 @@ public:
 	int m_nCols = 0;
 	afx_msg void OnClickedMenuCheck();
 
-	int GetSelectedRow();
+	int GetSelectedRow() const;
+
+	CString GetSelectedColumn(int nColumn_idx) const;
+	afx_msg void OnStnClickedStc4();
+	afx_msg void OnBnClickedBtn2paper();
+
 };
 
-inline CString Int2CString(const uint64_t src)
-{
-	CString str;
-	str.Format(_T("%llu"), src);
-	return str;
-}
+CString Int2CString(const uint64_t src);

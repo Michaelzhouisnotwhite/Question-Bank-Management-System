@@ -66,6 +66,12 @@
     <ClInclude Include="CJudgmentDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CExamQSetDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CPaperPreviewDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Question-Bank-Management-System.cpp">
@@ -99,6 +105,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CJudgmentDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CExamQSetDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CPaperPreviewDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
