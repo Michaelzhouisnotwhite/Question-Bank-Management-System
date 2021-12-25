@@ -6,6 +6,8 @@
 #include "afxdialogex.h"
 #include "CPaperPreviewDlg.h"
 
+#include "utils.hpp"
+
 
 // CPaperPreviewDlg 对话框
 
@@ -38,6 +40,11 @@ END_MESSAGE_MAP()
 void CPaperPreviewDlg::OnBnClickedBtnOut()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	int res = cdbu->InsertExamnation(q_class, GetEditText<CRichEditCtrl>(&m_EditPreview));
+	if (res == CDataBaseUser::EXICUTE_SUCCESS)
+	{
+		MessageBoxW(L"导出到数据库成功！", L"",MB_ICONINFORMATION | MB_OK);
+	}
 }
 
 void CPaperPreviewDlg::ExamQueryBuffer::clear()
@@ -94,9 +101,3 @@ void CPaperPreviewDlg::PrintExamBuffer()
 	m_EditPreview.SetWindowTextW(choice_text + L"\n" + complete_text + L"\n" + judge_text);
 }
 
-CString Int2CString(const uint64_t src)
-{
-	CString str;
-	str.Format(_T("%llu"), src);
-	return str;
-}

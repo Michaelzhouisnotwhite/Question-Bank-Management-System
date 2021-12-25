@@ -12,6 +12,7 @@
 #include "CExamQSetDlg.h"
 #include "CJudgmentDlg.h"
 #include "CPaperPreviewDlg.h"
+#include "utils.hpp"
 
 
 // CMainWinDlg 对话框
@@ -48,11 +49,12 @@ BEGIN_MESSAGE_MAP(CMainWinDlg, CDialogEx)
 	ON_COMMAND(ID_32777, &CMainWinDlg::OnClickedMenuModify)
 	ON_COMMAND(ID_32773, &CMainWinDlg::OnClickedMenuAddChoice)
 	ON_COMMAND(ID_32774, &CMainWinDlg::OnClickedMenuAddCompletion)
-	ON_COMMAND(ID_32776, &CMainWinDlg::OnClickedMenuJudgment)
+	ON_COMMAND(ID_32776, &CMainWinDlg::OnClickedMenuAddJudgment)
 	ON_COMMAND(ID_32779, &CMainWinDlg::OnClickedToPaper)
 	ON_COMMAND(ID_32780, &CMainWinDlg::OnClickedMenuCheck)
 	ON_STN_CLICKED(IDC_STC4, &CMainWinDlg::OnStnClickedStc4)
 	ON_BN_CLICKED(IDC_BTN_2PAPER, &CMainWinDlg::OnBnClickedBtn2paper)
+	ON_COMMAND(ID_32778, &CMainWinDlg::OnClickedMenuDelete)
 END_MESSAGE_MAP()
 
 
@@ -213,7 +215,12 @@ void CMainWinDlg::OnClickedMenuAddChoice()
 {
 	// TODO: 在此添加命令处理程序代码
 	CChoiceDlg dlg;
-	dlg.DoModal();
+	dlg.m_isReadable = FALSE;
+	auto res = dlg.DoModal();
+	if (res == IDOK)
+	{
+		// dbsu.UpdataJudge(GetSelectedColumn(0), dlg.m_sText, dlg.m_sAnswer);
+	}
 }
 
 
@@ -221,22 +228,33 @@ void CMainWinDlg::OnClickedMenuAddCompletion()
 {
 	// TODO: 在此添加命令处理程序代码
 	CCompletionDlg dlg;
-	dlg.DoModal();
+	dlg.m_isReadable = FALSE;
+	auto res = dlg.DoModal();
+	if (res == IDOK)
+	{
+		// dbsu.UpdataJudge(GetSelectedColumn(0), dlg.m_sText, dlg.m_sAnswer);
+	}
 }
 
 
-void CMainWinDlg::OnClickedMenuJudgment()
+void CMainWinDlg::OnClickedMenuAddJudgment()
 {
 	// TODO: 在此添加命令处理程序代码
 	CJudgmentDlg dlg;
 	// dlg.m_isReadable = TRUE;
-	dlg.DoModal();
+	dlg.m_isReadable = FALSE;
+	auto res = dlg.DoModal();
+	if (res == IDOK)
+	{
+		// dbsu.UpdataJudge(GetSelectedColumn(0), dlg.m_sText, dlg.m_sAnswer);
+	}
 }
 
 
 void CMainWinDlg::OnClickedToPaper()
 {
 	// TODO: 在此添加命令处理程序代码
+	OnBnClickedBtn2paper();
 }
 
 void CMainWinDlg::InitDataBase()
@@ -251,7 +269,7 @@ void CMainWinDlg::InitComboQtype()
 	m_qtype.AddString(L"选择题");
 	m_qtype.AddString(L"填空题");
 	m_qtype.AddString(L"判断题");
-	m_qtype.AddString(L"简答题");
+	// m_qtype.AddString(L"简答题");
 	m_qtype.SetCurSel(0);
 }
 
@@ -406,6 +424,7 @@ CString CMainWinDlg::GetSelectedColumn(const int nColumn_idx) const
 void CMainWinDlg::OnStnClickedStc4()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	MessageBoxW(L"name: \nid: " + m_sid, L"信息", MB_OK | MB_ICONINFORMATION);
 }
 
 
@@ -422,10 +441,14 @@ void CMainWinDlg::OnBnClickedBtn2paper()
 		dbsu.GenSubQtype(dlg.m_nJudge, L"判断题", GetComboBoxText(&m_qclass));
 		// dbsu.GenSubQtype(dlg.m_nCompete, L"简答题", GetComboBoxText(&m_qclass));
 		CPaperPreviewDlg cppdlg;
+
+		cppdlg.cdbu = &dbsu;
+		cppdlg.q_class = GetComboBoxText(&m_qclass);
 		cppdlg.m_exam_query_buffer = dbsu.m_exam_query_buffer;
 		cppdlg.DoModal();
 	}
 }
+
 //
 // CString Int2CString(const uint64_t src)
 // {
@@ -433,3 +456,9 @@ void CMainWinDlg::OnBnClickedBtn2paper()
 // 	str.Format(_T("%llu"), src);
 // 	return str;
 // }
+
+
+void CMainWinDlg::OnClickedMenuDelete()
+{
+	// TODO: 在此添加命令处理程序代码
+}

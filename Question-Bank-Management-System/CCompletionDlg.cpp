@@ -6,6 +6,8 @@
 #include "afxdialogex.h"
 #include "CCompletionDlg.h"
 
+#include "utils.hpp"
+
 
 // CCompletionDlg 对话框
 
@@ -52,8 +54,8 @@ void CCompletionDlg::OnBnClickedOk()
 		// m_EditA2.GetWindowTextW(tmp);
 		m_EditQ.GetWindowTextW(m_sContent);
 		m_sAnswer_list = {
-			GetEditText(m_EditA_list[0]), GetEditText(m_EditA_list[1]), GetEditText(m_EditA_list[2]),
-			GetEditText(m_EditA_list[3]), GetEditText(m_EditA_list[4])
+			GetEditText<CEdit>(m_EditA_list[0]), GetEditText<CEdit>(m_EditA_list[1]), GetEditText<CEdit>(m_EditA_list[2]),
+			GetEditText<CEdit>(m_EditA_list[3]), GetEditText<CEdit>(m_EditA_list[4])
 		};
 	}
 	CDialogEx::OnOK();

@@ -203,6 +203,7 @@
     <ClInclude Include="Question-Bank-Management-System.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAddQDlg.cpp" />

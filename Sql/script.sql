@@ -134,7 +134,7 @@ create table if not exists qbms.sub_question
     `Sub-question_score`   int          not null,
     primary key (`Sub-question_id`, shortAnswer_id),
     constraint `Sub-question_SAid`
-        foreign key (shortAnswer_id) references qbms.short_answer_question (shortAnswer_id)
+        foreign key (shortAnswer_id) references qbms.shortanswer_question (shortAnswer_id)
             on update cascade on delete cascade
 )
     charset = utf8;

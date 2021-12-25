@@ -42,11 +42,4 @@ public:
 	CRichEditCtrl m_EditQ;
 
 	std::vector<CEdit*> m_EditA_list;
-	CString GetEditText(CEdit* edit);
 };
-inline CString CCompletionDlg::GetEditText(CEdit* edit)
-{
-	CString tmp;
-	edit->GetWindowTextW(tmp);
-	return tmp;
-}

@@ -51,15 +51,7 @@ public:
 
 	std::vector<CString> m_sChoice_list;
 	CString m_skey;
-
-	CString GetEditText(CEdit * edit);
 	CString m_sEditCA;
 
 };
 
-inline CString CChoiceDlg::GetEditText(CEdit* edit)
-{
-	CString tmp;
-	edit->GetWindowTextW(tmp);
-	return tmp;
-}

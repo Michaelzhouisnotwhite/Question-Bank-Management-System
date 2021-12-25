@@ -6,6 +6,8 @@
 #include "afxdialogex.h"
 #include "CChoiceDlg.h"
 
+#include "utils.hpp"
+
 
 // CChoiceDlg 对话框
 
@@ -127,7 +129,7 @@ void CChoiceDlg::OnBnClickedOk()
 	{
 		// GetDlgItem(IDC_RICHEDIT21)->GetWindowTextW(t);
 		m_qcontent.GetWindowTextW(m_sContent);
-		m_sChoice_list = {GetEditText(m_Choice_List[0]), GetEditText(m_Choice_List[1]), GetEditText(m_Choice_List[2]), GetEditText(m_Choice_List[3])};
+		m_sChoice_list = {GetEditText<CEdit>(m_Choice_List[0]), GetEditText<CEdit>(m_Choice_List[1]), GetEditText<CEdit>(m_Choice_List[2]), GetEditText<CEdit>(m_Choice_List[3])};
 		if (m_CheckA.GetCheck())
 		{
 			m_skey = L"A";

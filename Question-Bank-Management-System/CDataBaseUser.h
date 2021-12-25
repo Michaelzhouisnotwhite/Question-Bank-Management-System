@@ -3,7 +3,7 @@
 
 #include "CDataBase.h"
 
-class CDataBaseUser final : CDataBase
+class CDataBaseUser final : public CDataBase
 {
 public:
 	CString teacher_id{};
@@ -23,7 +23,8 @@ public:
 		std::vector<std::vector<CString>> judge_content;
 		std::vector<std::vector<CString>> short_answer_content;
 		void clear();
-
+		// ExamQueryBuffer(const  CPaperPreviewDlg::ExamQueryBuffer& m_exam_query_buffer);
+		ExamQueryBuffer() = default;
 	};
 
 	ExamQueryBuffer m_exam_query_buffer;
@@ -56,7 +57,13 @@ public:
 	int GenSubQtype(CString nums, CString q_type, CString q_class);
 	CString GetSqlOfEachType(CString nums, CString q_type, CString q_class);
 
-	int InsertExamnation();
+	int InsertExamnation(CString q_class, CString exam_content);
+
+	CString GetClassId(CString qclass);
+	CString GetNewExamId();
+
+	int InsertQuestion();
+	int DeleteQuestion();
 
 };
 

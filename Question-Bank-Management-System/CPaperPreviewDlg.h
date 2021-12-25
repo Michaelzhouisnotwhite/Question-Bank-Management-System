@@ -43,5 +43,7 @@ public:
 	BOOL OnInitDialog() override;
 	void PrintExamBuffer();
 	CRichEditCtrl m_EditPreview;
+
+	CString q_class;
+	CDataBaseUser *cdbu;
 };
-CString Int2CString(const uint64_t src);

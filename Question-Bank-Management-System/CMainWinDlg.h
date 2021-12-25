@@ -67,4 +67,3 @@ public:
 
 };
 
-CString Int2CString(const uint64_t src);

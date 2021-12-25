@@ -73,7 +73,7 @@ void CJudgmentDlg::InitDlg()
 
 
 	m_edit.SetWindowTextW(m_sText);
-	if (m_sAnswer == L"1")
+	if (m_sAnswer == L"对")
 	{
 		m_radio_right.SetCheck(1);
 	}

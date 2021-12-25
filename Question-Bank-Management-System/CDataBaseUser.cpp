@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CDataBaseUser.h"
 
+#include "utils.hpp"
+
+
 CDataBaseUser::CDataBaseUser()
 {
 }
@@ -20,6 +23,14 @@ void CDataBaseUser::ExamQueryBuffer::clear()
 	judge_content.clear();
 	short_answer_content.clear();
 }
+
+// CDataBaseUser::ExamQueryBuffer::ExamQueryBuffer(const CPaperPreviewDlg::ExamQueryBuffer& m_exam_query_buffer)
+// {
+// 	choice_content = m_exam_query_buffer.choice_content;
+// 	complete_content = m_exam_query_buffer.complete_content;
+// 	judge_content = m_exam_query_buffer.judge_content;
+// 	short_answer_content = m_exam_query_buffer.short_answer_content;
+// }
 
 int CDataBaseUser::FindAuthorityClass()
 {
@@ -272,12 +283,13 @@ WHERE completion_id = " + q_id;
 
 int CDataBaseUser::UpdataJudge(CString q_id, CString q_content, CString key)
 {
+	key = key == L"1" ? L"¶Ô" : L"´í";
 	CString command =
 		L"UPDATE \n\
 judgment_question\n\
 SET \n\
 judgment_content=" + AddSingleQuotesToCString(q_content) + L",\n\
-judgment_answer=" + key + L"\n\
+judgment_answer=" + AddSingleQuotesToCString(key) + L"\n\
 WHERE judgment_id = " + q_id;
 	int ress = this->ExecuteSql(command);
 	if (ress == 0)
@@ -342,6 +354,7 @@ choice_question.option1,\n\
 choice_question.option2,\n\
 choice_question.option3,\n\
 choice_question.option4,\n\
+question.question_id,\n\
 choice_question.choice_answer\n\
 FROM\n\
 (question ,\n\
@@ -360,6 +373,7 @@ WHERE tc.teacher = " + teacher_id + L"\n\
 	{
 		command = L"SELECT\n\
 completion_question.completion_content,\n\
+question.question_id,\n\
 completion_question.completion_answer1,\n\
 completion_question.completion_answer2,\n\
 completion_question.completion_answer3,\n\
@@ -381,6 +395,7 @@ AND course.course_name = " + AddSingleQuotesToCString(q_class) + L"\n\
 	{
 		command = L"SELECT\n\
 judgment_question.judgment_content,\n\
+question.question_id,\n\
 judgment_question.judgment_answer\n\
 FROM\n\
 course\n\
@@ -396,4 +411,71 @@ AND course.course_name =  " + AddSingleQuotesToCString(q_class) + L"\n\
 			L"\norder by rand() limit " + nums;
 	}
 	return command;
+}
+
+int CDataBaseUser::InsertExamnation(CString q_class, CString exam_content)
+{
+	CString command = L"insert into examination (course_id, examination_content) values ";
+	CString subcommand = command +
+		AddParenthesesToCstring(GetClassId(q_class) + L", " + AddSingleQuotesToCString(exam_content));
+	int ress = ExecuteSql(subcommand);
+	if (ress == 0)
+	{
+		CString cmd = L"INSERT examination_question VALUES";
+		std::vector<CString> sql_list;
+		for (const auto& value : m_exam_query_buffer.judge_content)
+		{
+			CString values = AddParenthesesToCstring(GetNewExamId() + L", " + value[1]);
+			sql_list.push_back(cmd + values);
+		}
+
+		for (const auto& value : m_exam_query_buffer.complete_content)
+		{
+			CString values = AddParenthesesToCstring(GetNewExamId() + L", " + value[1]);
+			sql_list.push_back(cmd + values);
+		}
+		for (const auto& value : m_exam_query_buffer.choice_content)
+		{
+			CString values = AddParenthesesToCstring(GetNewExamId() + L", " + value[5]);
+			sql_list.push_back(cmd + values);
+		}
+
+		for (const CString& str : sql_list)
+		{
+			int sub_ress = ExecuteSql(str);
+			if (sub_ress)
+			{
+				return EXICUTE_ERROR;
+			}
+		}
+
+		return EXICUTE_SUCCESS;
+	}
+	return EXICUTE_ERROR;
+}
+
+CString CDataBaseUser::GetClassId(const CString qclass)
+{
+	CString command = L"select course_id from course where course_name = " + AddSingleQuotesToCString(qclass);
+	int ress = ExecuteSql(command);
+	if (ress)
+	{
+		return Int2CString(EXICUTE_ERROR);
+	}
+	MYSQL_RES* res = mysql_store_result(&mysqlCon);
+	MYSQL_ROW row = mysql_fetch_row(res);
+	return CharToCString(row[0]);
+}
+
+CString CDataBaseUser::GetNewExamId()
+{
+	CString command = L"select examination_id from examination order by examination_time DESC limit 1";
+	int ress = ExecuteSql(command);
+	if (ress)
+	{
+		return Int2CString(EXICUTE_ERROR);
+	}
+	MYSQL_RES* res = mysql_store_result(&mysqlCon);
+	MYSQL_ROW row = mysql_fetch_row(res);
+	return CharToCString(row[0]);
 }
