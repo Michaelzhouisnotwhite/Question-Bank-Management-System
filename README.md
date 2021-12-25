@@ -17,3 +17,12 @@
 
 
 ### 如何运行
+
+1. 下载release版本
+
+2. 解压
+
+3. 打开config.json填入本地的数据库信息
+4. 运行`getconfigration.exe`生成`config_output`
+5. 运行`Question-Bank-Management-System.exe`
+
