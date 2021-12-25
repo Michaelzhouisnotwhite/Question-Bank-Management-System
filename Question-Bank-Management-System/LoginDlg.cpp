@@ -34,6 +34,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 //	afx_msg void OnClickedMenuShortAnswer();
+	afx_msg void OnClickedBtnAddMenuComplete();
+	afx_msg void OnClickedBtnAddMenuJudge();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -47,6 +49,8 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 	// ON_COMMAND(ID_32775, &CAboutDlg::OnClickedMenuShortAnswer)
+	ON_COMMAND(ID_32782, &CAboutDlg::OnClickedBtnAddMenuComplete)
+	ON_COMMAND(ID_32783, &CAboutDlg::OnClickedBtnAddMenuJudge)
 END_MESSAGE_MAP()
 
 
@@ -231,3 +235,16 @@ void CLoginDlg::OnStnClickedStaticTitle()
 //{
 //	// TODO: 在此添加命令处理程序代码
 //}
+
+
+void CAboutDlg::OnClickedBtnAddMenuComplete()
+{
+	// TODO: 在此添加命令处理程序代码
+	
+}
+
+
+void CAboutDlg::OnClickedBtnAddMenuJudge()
+{
+	// TODO: 在此添加命令处理程序代码
+}

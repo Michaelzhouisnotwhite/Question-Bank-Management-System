@@ -38,7 +38,7 @@ public:
 	CMenu* pMenu;
 	afx_msg void OnClickedMenuAddChoice();
 	afx_msg void OnClickedMenuAddCompletion();
-	afx_msg void OnClickedMenuJudgment();
+	afx_msg void OnClickedMenuAddJudgment();
 	afx_msg void OnClickedToPaper();
 	CComboBox m_qtype;
 
@@ -65,5 +65,12 @@ public:
 	afx_msg void OnStnClickedStc4();
 	afx_msg void OnBnClickedBtn2paper();
 
+	afx_msg void OnClickedMenuDelete();
+	afx_msg void OnBnClickedMfcmenubutton1();
+	CMFCMenuButton m_AddBtn;
+	afx_msg void OnClickedBtnAddMenuChoice();
+	afx_msg void OnClickedBtnAddMenuComplete();
+	afx_msg void OnClickedBtnAddMenuJudge();
+	afx_msg void OnBnClickedButton2();
 };
 

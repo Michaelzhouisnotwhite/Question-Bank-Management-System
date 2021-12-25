@@ -54,7 +54,8 @@ void CCompletionDlg::OnBnClickedOk()
 		// m_EditA2.GetWindowTextW(tmp);
 		m_EditQ.GetWindowTextW(m_sContent);
 		m_sAnswer_list = {
-			GetEditText<CEdit>(m_EditA_list[0]), GetEditText<CEdit>(m_EditA_list[1]), GetEditText<CEdit>(m_EditA_list[2]),
+			GetEditText<CEdit>(m_EditA_list[0]), GetEditText<CEdit>(m_EditA_list[1]),
+			GetEditText<CEdit>(m_EditA_list[2]),
 			GetEditText<CEdit>(m_EditA_list[3]), GetEditText<CEdit>(m_EditA_list[4])
 		};
 	}
@@ -82,10 +83,12 @@ BOOL CCompletionDlg::OnInitDialog()
 	// TODO:  在此添加额外的初始化
 
 	int tmp_answer_idx = 0;
+
 	for (auto value : m_EditA_list)
 	{
 		value->SetReadOnly(m_isReadable);
-		value->SetWindowTextW(m_sAnswer_list[tmp_answer_idx]);
+		if (!m_sAnswer_list.empty())
+			value->SetWindowTextW(m_sAnswer_list[tmp_answer_idx]);
 		tmp_answer_idx++;
 	}
 

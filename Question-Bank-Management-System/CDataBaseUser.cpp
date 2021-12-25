@@ -76,8 +76,7 @@ tc)\n\
 INNER JOIN choice_question ON choice_question.choice_id = question.question_id\n\
 INNER JOIN chapter ON question.question_chapter_id = chapter.chapter_id\n\
 INNER JOIN course ON tc.course = course.course_id AND chapter.course_id = course.course_id\n\
-INNER JOIN course_questiontype ON course_questiontype.Cqtype_course_id = course.course_id\n\
-INNER JOIN question_type ON question.question_type_id = question_type.question_type_id AND course_questiontype.Cqtype_Qtype_id = question_type.question_type_id\n\
+	INNER join question_type on question.question_type_id\n\
 WHERE tc.teacher = " + teacher_id + L"\n\
   AND chapter.chapter_name = " + AddSingleQuotesToCString(q_chapter) + L"\n\
   AND course.course_name = " + AddSingleQuotesToCString(q_class) + L"\n\
@@ -127,9 +126,7 @@ FROM (question ,\n\
     tc)\n\
          INNER JOIN chapter ON question.question_chapter_id = chapter.chapter_id\n\
          INNER JOIN course ON tc.course = course.course_id AND chapter.course_id = course.course_id\n\
-         INNER JOIN course_questiontype ON course_questiontype.Cqtype_course_id = course.course_id\n\
-         INNER JOIN question_type ON question.question_type_id = question_type.question_type_id AND\n\
-                                     course_questiontype.Cqtype_Qtype_id = question_type.question_type_id\n\
+         INNER JOIN question_type ON question.question_type_id = question_type.question_type_id \n\
          INNER JOIN completion_question ON completion_question.completion_id = question.question_id\n\
 WHERE tc.teacher = " + teacher_id + L"\n\
   AND chapter.chapter_name = " + AddSingleQuotesToCString(q_chapter) + L"\n\
@@ -176,9 +173,7 @@ FROM (question ,\n\
     tc)\n\
          INNER JOIN chapter ON question.question_chapter_id = chapter.chapter_id\n\
          INNER JOIN course ON tc.course = course.course_id AND chapter.course_id = course.course_id\n\
-         INNER JOIN course_questiontype ON course_questiontype.Cqtype_course_id = course.course_id\n\
-         INNER JOIN question_type ON question.question_type_id = question_type.question_type_id AND\n\
-                                     course_questiontype.Cqtype_Qtype_id = question_type.question_type_id\n\
+         INNER JOIN question_type ON question.question_type_id = question_type.question_type_id \n\
          INNER JOIN judgment_question ON judgment_question.judgment_id = question.question_id\n\
 WHERE tc.teacher = " + teacher_id + L"\n\
   AND chapter.chapter_name = " + AddSingleQuotesToCString(q_chapter) + L"\n\
@@ -362,8 +357,7 @@ tc)\n\
 INNER JOIN choice_question ON choice_question.choice_id = question.question_id\n\
 INNER JOIN chapter ON question.question_chapter_id = chapter.chapter_id\n\
 INNER JOIN course ON tc.course = course.course_id AND chapter.course_id = course.course_id\n\
-INNER JOIN course_questiontype ON course_questiontype.Cqtype_course_id = course.course_id\n\
-INNER JOIN question_type ON question.question_type_id = question_type.question_type_id AND course_questiontype.Cqtype_Qtype_id = question_type.question_type_id\n\
+		INner join question_type on question.question_type_id\n\
 WHERE tc.teacher = " + teacher_id + L"\n\
   AND course.course_name = " + AddSingleQuotesToCString(q_class) + L"\n\
   AND question_type.question_name = " + AddSingleQuotesToCString(q_type) +
@@ -470,6 +464,153 @@ CString CDataBaseUser::GetClassId(const CString qclass)
 CString CDataBaseUser::GetNewExamId()
 {
 	CString command = L"select examination_id from examination order by examination_time DESC limit 1";
+	int ress = ExecuteSql(command);
+	if (ress)
+	{
+		return Int2CString(EXICUTE_ERROR);
+	}
+	MYSQL_RES* res = mysql_store_result(&mysqlCon);
+	MYSQL_ROW row = mysql_fetch_row(res);
+	return CharToCString(row[0]);
+}
+
+int CDataBaseUser::InsertChoice(CString q_class, CString q_chapter, CString q_content, std::vector<CString> option_list,
+                                CString key)
+{
+	CString command1 = L"INSERT question(question.question_type_id, question.question_chapter_id) VALUES ";
+	CString cmd1_value = AddParenthesesToCstring(GetQuestionTypeId(L"选择题") + L", " + GetChapterId(q_chapter));
+	int ress = ExecuteSql(command1 + cmd1_value);
+	if (ress == 0)
+	{
+		CString command2 =
+			L"INSERT choice_question(choice_question.choice_id, choice_question.choice_content, choice_question.option1,\n\
+                       choice_question.option2, choice_question.option3, choice_question.option4,\n\
+                       choice_question.choice_answer)\n\
+VALUES";
+		CString cmd2_value = AddParenthesesToCstring(
+			GetNewQuestionId() + L", " + AddSingleQuotesToCString(
+				q_content) + L", " + AddSingleQuotesToCString(
+				option_list[0]) + L", " + AddSingleQuotesToCString(
+				option_list[1]) + L", " + AddSingleQuotesToCString(
+				option_list[2]) + L", " + AddSingleQuotesToCString(
+				option_list[3]) + L", " + AddSingleQuotesToCString(
+				key));
+
+		int sub_ress = ExecuteSql(command2 + cmd2_value);
+		if (sub_ress)
+		{
+			return EXICUTE_ERROR;
+		}
+		return EXICUTE_SUCCESS;
+	}
+	return EXICUTE_ERROR;
+}
+
+int CDataBaseUser::InsertComplete(CString q_class, CString q_chapter, CString q_content,
+                                  std::vector<CString> answer_list)
+{
+	CString command1 = L"INSERT question(question.question_type_id, question.question_chapter_id) VALUES ";
+	CString cmd1_value = AddParenthesesToCstring(GetQuestionTypeId(L"填空题") + L", " + GetChapterId(q_chapter));
+	int ress = ExecuteSql(command1 + cmd1_value);
+	if (ress == 0)
+	{
+		CString command2 =
+			L"INSERT completion_question(completion_question.completion_id,completion_question.completion_content,completion_question.completion_answer1,completion_question.completion_answer2,completion_question.completion_answer3,completion_question.completion_answer4,completion_question.completion_answer5) VALUES ";
+		CString cmd2_value = AddParenthesesToCstring(
+			GetNewQuestionId() + L", " + AddSingleQuotesToCString(
+				q_content) + L", " + AddSingleQuotesToCString(
+				answer_list[0]) + L", " + AddSingleQuotesToCString(
+				answer_list[1]) + L", " + AddSingleQuotesToCString(
+				answer_list[2]) + L", " + AddSingleQuotesToCString(
+				answer_list[3]) + L", " + AddSingleQuotesToCString(
+				answer_list[4]));
+
+		int sub_ress = ExecuteSql(command2 + cmd2_value);
+		if (sub_ress)
+		{
+			return EXICUTE_ERROR;
+		}
+		return EXICUTE_SUCCESS;
+	}
+	return EXICUTE_ERROR;
+}
+
+int CDataBaseUser::InsertJudge(CString q_class, CString q_chapter, CString q_content, CString key)
+{
+	CString command1 = L"INSERT question(question.question_type_id, question.question_chapter_id) VALUES ";
+	CString cmd1_value = AddParenthesesToCstring(GetQuestionTypeId(L"判断题") + L", " + GetChapterId(q_chapter));
+	int ress = ExecuteSql(command1 + cmd1_value);
+	if (ress == 0)
+	{
+		CString command2 =
+			L"INSERT judgment_question(judgment_question.judgment_id,judgment_question.judgment_content,judgment_question.judgment_answer) VALUES ";
+		CString cmd2_value = AddParenthesesToCstring(
+			GetNewQuestionId() + L", " + AddSingleQuotesToCString(
+				q_content) + L", " + AddSingleQuotesToCString(
+				key));
+
+		int sub_ress = ExecuteSql(command2 + cmd2_value);
+		if (sub_ress)
+		{
+			return EXICUTE_ERROR;
+		}
+		return EXICUTE_SUCCESS;
+	}
+	return EXICUTE_ERROR;
+}
+
+int CDataBaseUser::DeleteQuestion(CString q_id)
+{
+	std::vector<CString> command_list = {
+		L"DELETE FROM choice_question WHERE choice_question.choice_id=" + q_id,
+		L"DELETE FROM judgment_question WHERE judgment_question.judgment_id=" + q_id,
+		L"DELETE FROM completion_question WHERE completion_question.completion_id=" + q_id,
+		L"DELETE FROM question WHERE question.question_id=" + q_id
+	};
+	for (CString str : command_list)
+	{
+		int ress = ExecuteSql(str);
+		if (ress)
+		{
+			return EXICUTE_ERROR;
+		}
+	}
+	return EXICUTE_SUCCESS;
+}
+
+CString CDataBaseUser::GetNewQuestionId()
+{
+	CString command = L"select question_id from question order by question.question_time DESC limit 1";
+	int ress = ExecuteSql(command);
+	if (ress)
+	{
+		return Int2CString(EXICUTE_ERROR);
+	}
+	MYSQL_RES* res = mysql_store_result(&mysqlCon);
+	MYSQL_ROW row = mysql_fetch_row(res);
+	return CharToCString(row[0]);
+}
+
+CString CDataBaseUser::GetChapterId(CString q_chapter)
+{
+	CString command = L"\n\
+select chapter_id\n\
+from chapter\n\
+where chapter_name = " + AddSingleQuotesToCString(q_chapter);
+	int ress = ExecuteSql(command);
+	if (ress)
+	{
+		return Int2CString(EXICUTE_ERROR);
+	}
+	MYSQL_RES* res = mysql_store_result(&mysqlCon);
+	MYSQL_ROW row = mysql_fetch_row(res);
+	return CharToCString(row[0]);
+}
+
+CString CDataBaseUser::GetQuestionTypeId(CString q_type)
+{
+	CString command = L"select question_type_id from question_type where question_name=" +
+		AddSingleQuotesToCString(q_type);
 	int ress = ExecuteSql(command);
 	if (ress)
 	{

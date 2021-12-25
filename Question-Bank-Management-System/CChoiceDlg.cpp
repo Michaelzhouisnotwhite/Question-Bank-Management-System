@@ -74,6 +74,7 @@ BOOL CChoiceDlg::OnInitDialog()
 	for (auto value : m_Choice_List)
 	{
 		value->SetReadOnly(m_isReadable);
+		if (!m_sChoice_list.empty())
 		value->SetWindowTextW(m_sChoice_list[i]);
 		i++;
 	}

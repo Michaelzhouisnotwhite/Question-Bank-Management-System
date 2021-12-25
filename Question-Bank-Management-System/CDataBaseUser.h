@@ -35,9 +35,9 @@ public:
 	struct DataBaseParam
 	{
 		CString authority_class =
-			L"SELECT DISTINCT course.course_name FROM (chapter ,	course_questiontype) INNER JOIN course ON chapter.course_id = course.course_id INNER JOIN tc ON tc.course = course.course_id INNER JOIN teacher ON tc.teacher = teacher.teacher_id\n";
+			L"SELECT DISTINCT course.course_name FROM (chapter) INNER JOIN course ON chapter.course_id = course.course_id INNER JOIN tc ON tc.course = course.course_id INNER JOIN teacher ON tc.teacher = teacher.teacher_id\n";
 		CString view =
-			L"(chapter ,	course_questiontype) INNER JOIN course ON chapter.course_id = course.course_id INNER JOIN tc ON tc.course = course.course_id INNER JOIN teacher ON tc.teacher = teacher.teacher_id\n";
+			L"(chapter) INNER JOIN course ON chapter.course_id = course.course_id INNER JOIN tc ON tc.course = course.course_id INNER JOIN teacher ON tc.teacher = teacher.teacher_id\n";
 	};
 
 	DataBaseParam m_dbParam;
@@ -62,9 +62,14 @@ public:
 	CString GetClassId(CString qclass);
 	CString GetNewExamId();
 
-	int InsertQuestion();
-	int DeleteQuestion();
+	int InsertChoice(CString q_class, CString q_chapter, CString q_content, std::vector<CString> option_list, CString key);
+	int InsertComplete(CString q_class, CString q_chapter, CString q_content, std::vector<CString> answer_list);
+	int InsertJudge(CString q_class, CString q_chapter,  CString q_content, CString key);
+	int DeleteQuestion(CString q_id);
 
+	CString GetNewQuestionId();
+	CString GetChapterId(CString q_chapter);
+	CString GetQuestionTypeId(CString q_type);
 };
 
 inline char* CDataBaseUser::StrCopy(char* src)

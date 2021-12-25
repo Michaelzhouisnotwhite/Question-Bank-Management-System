@@ -37,6 +37,7 @@ void CMainWinDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO_QTYPE, m_qtype);
 	DDX_Control(pDX, IDC_COMBO_QCLASS, m_qclass);
 	DDX_Control(pDX, IDC_COMBO_QCHAPTER, m_qchapter);
+	// DDX_Control(pDX, IDC_MFCMENUBUTTON1, m_AddBtn);
 }
 
 
@@ -55,6 +56,11 @@ BEGIN_MESSAGE_MAP(CMainWinDlg, CDialogEx)
 	ON_STN_CLICKED(IDC_STC4, &CMainWinDlg::OnStnClickedStc4)
 	ON_BN_CLICKED(IDC_BTN_2PAPER, &CMainWinDlg::OnBnClickedBtn2paper)
 	ON_COMMAND(ID_32778, &CMainWinDlg::OnClickedMenuDelete)
+	// ON_BN_CLICKED(IDC_MFCMENUBUTTON1, &CMainWinDlg::OnBnClickedMfcmenubutton1)
+	ON_COMMAND(ID_32781, &CMainWinDlg::OnClickedBtnAddMenuChoice)
+	ON_COMMAND(ID_32782, &CMainWinDlg::OnClickedBtnAddMenuComplete)
+	ON_COMMAND(ID_32783, &CMainWinDlg::OnClickedBtnAddMenuJudge)
+	ON_BN_CLICKED(IDC_BUTTON2, &CMainWinDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 
@@ -87,6 +93,8 @@ BOOL CMainWinDlg::OnInitDialog()
 	m_table.InsertColumn(1, L"题目内容", LVCFMT_LEFT, 1000);
 	m_nCols++;
 
+	pMenu->LoadMenu(ID_MENU);
+	m_AddBtn.m_hMenu = pMenu->GetSubMenu(1)->GetSafeHmenu();
 	InitListTable();
 	// m_qchapter.EnableWindow(FALSE);
 
@@ -219,8 +227,9 @@ void CMainWinDlg::OnClickedMenuAddChoice()
 	auto res = dlg.DoModal();
 	if (res == IDOK)
 	{
-		// dbsu.UpdataJudge(GetSelectedColumn(0), dlg.m_sText, dlg.m_sAnswer);
+		dbsu.InsertChoice(GetComboBoxText(&m_qclass), GetComboBoxText(&m_qchapter), dlg.m_sContent, dlg.m_sChoice_list, dlg.m_skey);
 	}
+	InitListTable();
 }
 
 
@@ -232,8 +241,9 @@ void CMainWinDlg::OnClickedMenuAddCompletion()
 	auto res = dlg.DoModal();
 	if (res == IDOK)
 	{
-		// dbsu.UpdataJudge(GetSelectedColumn(0), dlg.m_sText, dlg.m_sAnswer);
+		dbsu.InsertComplete(GetComboBoxText(&m_qclass), GetComboBoxText(&m_qchapter), dlg.m_sContent, dlg.m_sAnswer_list);
 	}
+	InitListTable();
 }
 
 
@@ -246,8 +256,9 @@ void CMainWinDlg::OnClickedMenuAddJudgment()
 	auto res = dlg.DoModal();
 	if (res == IDOK)
 	{
-		// dbsu.UpdataJudge(GetSelectedColumn(0), dlg.m_sText, dlg.m_sAnswer);
+		dbsu.InsertJudge(GetComboBoxText(&m_qclass), GetComboBoxText(&m_qchapter), dlg.m_sText, dlg.m_sAnswer);
 	}
+	InitListTable();
 }
 
 
@@ -461,4 +472,56 @@ void CMainWinDlg::OnBnClickedBtn2paper()
 void CMainWinDlg::OnClickedMenuDelete()
 {
 	// TODO: 在此添加命令处理程序代码
+	dbsu.DeleteQuestion(GetSelectedColumn(0));
+	InitListTable();
+}
+
+
+void CMainWinDlg::OnBnClickedMfcmenubutton1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CMainWinDlg::OnClickedBtnAddMenuChoice()
+{
+	// TODO: 在此添加命令处理程序代码
+	OnClickedMenuAddChoice();
+}
+
+
+void CMainWinDlg::OnClickedBtnAddMenuComplete()
+{
+	// TODO: 在此添加命令处理程序代码
+	OnClickedMenuAddCompletion();
+}
+
+
+void CMainWinDlg::OnClickedBtnAddMenuJudge()
+{
+	// TODO: 在此添加命令处理程序代码
+	OnClickedMenuAddJudgment();
+}
+
+
+void CMainWinDlg::OnBnClickedButton2()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CAddQDlg dlg;
+	INT_PTR res = dlg.DoModal();
+	if (res == IDOK)
+	{
+		if (dlg.is_choice == 1)
+		{
+			OnClickedMenuAddChoice();
+		}
+		if (dlg.is_complete == 1)
+		{
+			OnClickedMenuAddCompletion();
+		}
+		if (dlg.is_judge == 1)
+		{
+			OnClickedMenuAddJudgment();
+		}
+	}
 }
