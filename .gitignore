@@ -21,6 +21,7 @@ save_pic_from_clipboard.py
 save_pic_from_clipboard.json
 .idea
 list_box_example
+!./x64/Release
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefse
