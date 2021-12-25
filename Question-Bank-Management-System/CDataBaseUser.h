@@ -70,6 +70,8 @@ public:
 	CString GetNewQuestionId();
 	CString GetChapterId(CString q_chapter);
 	CString GetQuestionTypeId(CString q_type);
+
+	CString GetQClassNum(CString q_class);
 };
 
 inline char* CDataBaseUser::StrCopy(char* src)

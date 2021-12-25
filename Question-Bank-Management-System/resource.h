@@ -58,6 +58,7 @@
 #define IDC_EDIT_SHORT_Q                1043
 #define IDC_REDIT1                      1044
 #define IDC_BTN_OUT                     1045
+#define IDC_EDIT_SHOW_INFO              1048
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -78,7 +79,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        158
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         1048
+#define _APS_NEXT_CONTROL_VALUE         1049
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

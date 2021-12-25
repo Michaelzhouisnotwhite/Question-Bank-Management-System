@@ -72,5 +72,6 @@ public:
 	afx_msg void OnClickedBtnAddMenuComplete();
 	afx_msg void OnClickedBtnAddMenuJudge();
 	afx_msg void OnBnClickedButton2();
+	CEdit m_EditQNum;
 };
 

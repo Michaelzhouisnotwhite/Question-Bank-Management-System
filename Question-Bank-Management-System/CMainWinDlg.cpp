@@ -38,6 +38,7 @@ void CMainWinDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO_QCLASS, m_qclass);
 	DDX_Control(pDX, IDC_COMBO_QCHAPTER, m_qchapter);
 	// DDX_Control(pDX, IDC_MFCMENUBUTTON1, m_AddBtn);
+	DDX_Control(pDX, IDC_EDIT_SHOW_INFO, m_EditQNum);
 }
 
 
@@ -356,6 +357,10 @@ void CMainWinDlg::InitListTable()
 		m_nCols++;
 	}
 
+	auto chapter_items = dbsu.query_buffer.size();
+	auto class_nums = dbsu.GetQClassNum(GetComboBoxText(&m_qclass));
+
+	m_EditQNum.SetWindowTextW(Int2CString(chapter_items) + L"/" + class_nums);
 
 	for (size_t i = 0; i < dbsu.query_buffer.size(); i++)
 	{

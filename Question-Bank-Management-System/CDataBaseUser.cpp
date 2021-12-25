@@ -620,3 +620,24 @@ CString CDataBaseUser::GetQuestionTypeId(CString q_type)
 	MYSQL_ROW row = mysql_fetch_row(res);
 	return CharToCString(row[0]);
 }
+
+CString CDataBaseUser::GetQClassNum(CString q_class)
+{
+	CString command = L"select count(DISTINCT question_id)\n\
+from (question ,\n\
+    tc)\n\
+         INNER JOIN chapter ON question.question_chapter_id = chapter.chapter_id\n\
+         INNER JOIN course ON tc.course = course.course_id AND chapter.course_id = course.course_id\n\
+         INNER JOIN question_type ON question.question_type_id = question_type.question_type_id\n\
+where teacher =" + teacher_id + L"\n\
+  and course_name=" + AddSingleQuotesToCString(q_class);
+
+	int ress = ExecuteSql(command);
+	if (ress)
+	{
+		return Int2CString(EXICUTE_ERROR);
+	}
+	MYSQL_RES* res = mysql_store_result(&mysqlCon);
+	MYSQL_ROW row = mysql_fetch_row(res);
+	return CharToCString(row[0]);
+}
