@@ -1,0 +1,13 @@
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (101, '第一章 绪论', 1);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (102, '第二章 关系数据库', 1);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (103, '第三章 关系数据库标准语言SQL', 1);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (104, '第四章 数据库安全性', 1);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (105, '第一章 运动何莉6', 2);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (106, '第二章 运动的守恒量', 2);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (107, '第三章 刚体和流体的运动', 2);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (108, '第一章 微积分', 3);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (109, '第二章 分布积分', 3);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (110, '第一章 流密码', 4);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (111, '第二章 公钥密码', 4);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (112, '第一章 挖泥', 5);
+INSERT INTO qbms.chapter (chapter_id, chapter_name, course_id) VALUES (113, '第二章 烧火', 5);

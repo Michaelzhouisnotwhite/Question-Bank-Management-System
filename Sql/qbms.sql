@@ -1,197 +1,152 @@
-/*
- Navicat Premium Data Transfer
+create table if not exists qbms.course
+(
+    course_id   int auto_increment comment '课程号'
+        primary key,
+    course_name varchar(20) not null comment '课程名'
+);
 
- Source Server         : 1
- Source Server Type    : MySQL
- Source Server Version : 80022
- Source Host           : localhost:3306
- Source Schema         : qbms
+create table if not exists qbms.chapter
+(
+    chapter_id   int         not null comment '章节号'
+        primary key,
+    chapter_name varchar(20) not null,
+    course_id    int         not null,
+    constraint Chapter_Course
+        foreign key (course_id) references qbms.course (course_id)
+            on update cascade on delete cascade
+);
 
- Target Server Type    : MySQL
- Target Server Version : 80022
- File Encoding         : 65001
+create table if not exists qbms.examination
+(
+    examination_id      int unsigned auto_increment
+        primary key,
+    course_id           int                                 not null,
+    examination_time    timestamp default CURRENT_TIMESTAMP not null,
+    examination_content varchar(2048)                       not null,
+    constraint Examination_Courseid
+        foreign key (course_id) references qbms.course (course_id)
+            on update cascade on delete cascade
+);
 
- Date: 18/12/2021 22:42:24
-*/
+create table if not exists qbms.question_type
+(
+    question_type_id int auto_increment comment '题型号'
+        primary key,
+    question_name    varchar(20) not null comment '题型名'
+);
 
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+create table if not exists qbms.question
+(
+    question_id         int auto_increment
+        primary key,
+    question_trigger    int       default 0                 not null,
+    question_time       timestamp default CURRENT_TIMESTAMP not null,
+    question_type_id    int                                 not null,
+    question_chapter_id int                                 not null,
+    constraint Question_Chapter
+        foreign key (question_chapter_id) references qbms.chapter (chapter_id)
+            on update cascade on delete cascade,
+    constraint Question_QType
+        foreign key (question_type_id) references qbms.question_type (question_type_id)
+            on update cascade on delete cascade
+);
 
--- ----------------------------
--- Table structure for chapter
--- ----------------------------
-DROP TABLE IF EXISTS `chapter`;
-CREATE TABLE `chapter`  (
-  `chapter_id` int(0) NOT NULL COMMENT '章节号',
-  `chapter_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `course_id` int(0) NOT NULL,
-  PRIMARY KEY (`chapter_id`) USING BTREE,
-  INDEX `Chapter_Course`(`course_id`) USING BTREE,
-  CONSTRAINT `Chapter_Course` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+create table if not exists qbms.choice_question
+(
+    choice_id      int                       not null
+        primary key,
+    choice_content varchar(255)              not null,
+    option1        varchar(255)              not null,
+    option2        varchar(255)              not null,
+    option3        varchar(255)              not null,
+    option4        varchar(255)              not null,
+    choice_answer  enum ('A', 'B', 'C', 'D') null,
+    constraint Choice_Qid
+        foreign key (choice_id) references qbms.question (question_id)
+            on update cascade on delete cascade
+);
 
--- ----------------------------
--- Table structure for choice_question
--- ----------------------------
-DROP TABLE IF EXISTS `choice_question`;
-CREATE TABLE `choice_question`  (
-  `choice_id` int(0) NOT NULL,
-  `choice_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `option1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `option2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `option3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `option4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `choice_answer` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`choice_id`) USING BTREE,
-  CONSTRAINT `Choice_Qid` FOREIGN KEY (`choice_id`) REFERENCES `question` (`question_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+create table if not exists qbms.completion_question
+(
+    completion_id      int          not null
+        primary key,
+    completion_content varchar(255) not null,
+    completion_answer1 varchar(255) null,
+    completion_answer2 varchar(255) null,
+    completion_answer3 varchar(255) null,
+    completion_answer4 varchar(255) null,
+    completion_answer5 varchar(255) null,
+    constraint Completion_Qid
+        foreign key (completion_id) references qbms.question (question_id)
+            on update cascade on delete cascade
+);
 
--- ----------------------------
--- Table structure for completion_question
--- ----------------------------
-DROP TABLE IF EXISTS `completion_question`;
-CREATE TABLE `completion_question`  (
-  `completion_id` int(0) NOT NULL,
-  `completion_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `blank1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `blank2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `blank3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `blank4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `blank5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `completion_answer1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `completion_answer2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `completion_answer3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `completion_answer4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `completion_answer5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`completion_id`) USING BTREE,
-  CONSTRAINT `Completion_Qid` FOREIGN KEY (`completion_id`) REFERENCES `question` (`question_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+create table if not exists qbms.examination_question
+(
+    examination_id int unsigned not null comment '试卷id',
+    question_id    int          not null comment '题目id',
+    primary key (examination_id, question_id),
+    constraint Eid
+        foreign key (examination_id) references qbms.examination (examination_id)
+            on update cascade on delete cascade,
+    constraint Qid
+        foreign key (question_id) references qbms.question (question_id)
+            on update cascade on delete cascade
+)
+    charset = utf8;
 
--- ----------------------------
--- Table structure for course
--- ----------------------------
-DROP TABLE IF EXISTS `course`;
-CREATE TABLE `course`  (
-  `course_id` int(0) NOT NULL AUTO_INCREMENT COMMENT '课程号',
-  `course_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '课程名',
-  PRIMARY KEY (`course_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+create definer = root@localhost trigger qbms.qwe
+    after insert
+    on qbms.examination_question
+    for each row
+begin
+    -- missing source code
+end;
 
--- ----------------------------
--- Table structure for course_questiontype
--- ----------------------------
-DROP TABLE IF EXISTS `course_questiontype`;
-CREATE TABLE `course_questiontype`  (
-  `Cqtype_course_id` int(0) NOT NULL,
-  `Cqtype_Qtype_id` int(0) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`Cqtype_course_id`, `Cqtype_Qtype_id`) USING BTREE,
-  INDEX `Cqtype_Qtype`(`Cqtype_Qtype_id`) USING BTREE,
-  CONSTRAINT `Cqtype_Course` FOREIGN KEY (`Cqtype_course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Cqtype_Qtype` FOREIGN KEY (`Cqtype_Qtype_id`) REFERENCES `question_type` (`question_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+create table if not exists qbms.judgment_question
+(
+    judgment_id      int             not null comment '判断题题号'
+        primary key,
+    judgment_content varchar(255)    not null comment '判断题内容',
+    judgment_answer  enum ('对', '错') null comment '判断题答案',
+    constraint Judgment_Qid
+        foreign key (judgment_id) references qbms.question (question_id)
+            on update cascade on delete cascade
+);
 
--- ----------------------------
--- Table structure for examination
--- ----------------------------
-DROP TABLE IF EXISTS `examination`;
-CREATE TABLE `examination`  (
-  `examination_id` int(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `course_id` int(0) NOT NULL,
-  `examination_time` datetime(0) NOT NULL,
-  `examination_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`examination_id`) USING BTREE,
-  INDEX `Examination_Courseid`(`course_id`) USING BTREE,
-  CONSTRAINT `Examination_Courseid` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+create table if not exists qbms.teacher
+(
+    teacher_id    int          not null comment '教师号'
+        primary key,
+    teacher_name  varchar(20)  not null comment '教师名',
+    teacher_psw   varchar(20)  not null comment '教师登录密码',
+    teacher_photo varchar(255) null comment '教师照片'
+)
+    charset = utf8;
 
--- ----------------------------
--- Table structure for judgment_question
--- ----------------------------
-DROP TABLE IF EXISTS `judgment_question`;
-CREATE TABLE `judgment_question`  (
-  `judgment_id` int(0) NOT NULL COMMENT '判断题题号',
-  `judgment_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '判断题内容',
-  `judgment_answer` tinyint(0) NOT NULL COMMENT '判断题答案，0为错，1为对',
-  PRIMARY KEY (`judgment_id`) USING BTREE,
-  CONSTRAINT `Judgment_Qid` FOREIGN KEY (`judgment_id`) REFERENCES `question` (`question_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+create table if not exists qbms.tc
+(
+    course  int not null comment '课程号',
+    teacher int not null comment '教师号',
+    primary key (course, teacher),
+    constraint Tcourse_Course
+        foreign key (course) references qbms.course (course_id)
+            on update cascade on delete cascade,
+    constraint Tcourse_Teacher
+        foreign key (teacher) references qbms.teacher (teacher_id)
+            on update cascade on delete cascade
+);
 
--- ----------------------------
--- Table structure for question
--- ----------------------------
-DROP TABLE IF EXISTS `question`;
-CREATE TABLE `question`  (
-  `question_id` int(0) NOT NULL AUTO_INCREMENT,
-  `question_trigger` int(0) NOT NULL,
-  `question_time` datetime(0) NOT NULL,
-  `question_type_id` int(0) NOT NULL,
-  `question_chapter_id` int(0) NOT NULL,
-  PRIMARY KEY (`question_id`) USING BTREE,
-  INDEX `Question_QType`(`question_type_id`) USING BTREE,
-  INDEX `Question_Chapter`(`question_chapter_id`) USING BTREE,
-  CONSTRAINT `Question_Chapter` FOREIGN KEY (`question_chapter_id`) REFERENCES `chapter` (`chapter_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Question_QType` FOREIGN KEY (`question_type_id`) REFERENCES `question_type` (`question_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+create or replace definer = root@localhost view qbms.asdf as
+select distinct `qbms`.`course`.`course_name`          AS `course_name`,
+                `qbms`.`question_type`.`question_name` AS `question_name`
+from (((`qbms`.`course` join `qbms`.`chapter` on ((`qbms`.`chapter`.`course_id` = `qbms`.`course`.`course_id`))) join `qbms`.`question` on ((
+        `qbms`.`question`.`question_chapter_id` = `qbms`.`chapter`.`chapter_id`)))
+         join `qbms`.`question_type`
+              on ((`qbms`.`question`.`question_type_id` = `qbms`.`question_type`.`question_type_id`)));
 
--- ----------------------------
--- Table structure for question_type
--- ----------------------------
-DROP TABLE IF EXISTS `question_type`;
-CREATE TABLE `question_type`  (
-  `question_type_id` int(0) NOT NULL AUTO_INCREMENT COMMENT '题型号',
-  `question_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '题型名',
-  PRIMARY KEY (`question_type_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+-- comment on column qbms.asdf.course_name not supported: 课程名
 
--- ----------------------------
--- Table structure for shortanswer_question
--- ----------------------------
-DROP TABLE IF EXISTS `shortanswer_question`;
-CREATE TABLE `shortanswer_question`  (
-  `shortAnswer_id` int(0) NOT NULL COMMENT '简答题题号',
-  `shortAnswer_content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '大题题干内容',
-  PRIMARY KEY (`shortAnswer_id`) USING BTREE,
-  CONSTRAINT `shortAnswer_Qid` FOREIGN KEY (`shortAnswer_id`) REFERENCES `question` (`question_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+-- comment on column qbms.asdf.question_name not supported: 题型名
 
--- ----------------------------
--- Table structure for sub-question
--- ----------------------------
-DROP TABLE IF EXISTS `sub-question`;
-CREATE TABLE `sub-question`  (
-  `Sub-question_id` int(0) NOT NULL,
-  `shortAnswer_id` int(0) NOT NULL,
-  `Sub-question_No` int(0) NOT NULL,
-  `Sub-question_content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `Sub-question_answer` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `Sub-question_score` int(0) NOT NULL,
-  PRIMARY KEY (`Sub-question_id`, `shortAnswer_id`) USING BTREE,
-  INDEX `Sub-question_SAid`(`shortAnswer_id`) USING BTREE,
-  CONSTRAINT `Sub-question_SAid` FOREIGN KEY (`shortAnswer_id`) REFERENCES `shortanswer_question` (`shortAnswer_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
--- ----------------------------
--- Table structure for tc
--- ----------------------------
-DROP TABLE IF EXISTS `tc`;
-CREATE TABLE `tc`  (
-  `course` int(0) NOT NULL COMMENT '课程号',
-  `teacher` int(0) NOT NULL COMMENT '教师号',
-  PRIMARY KEY (`course`, `teacher`) USING BTREE,
-  CONSTRAINT `Tcourse_Course` FOREIGN KEY (`course`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Tcourse_Teacher` FOREIGN KEY (`course`) REFERENCES `teacher` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for teacher
--- ----------------------------
-DROP TABLE IF EXISTS `teacher`;
-CREATE TABLE `teacher`  (
-  `teacher_id` int(0) NOT NULL COMMENT '教师号',
-  `teacher_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '教师名',
-  `teacher_psw` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '教师登录密码',
-  `teacher_photo` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '教师照片',
-  PRIMARY KEY (`teacher_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
-SET FOREIGN_KEY_CHECKS = 1;
