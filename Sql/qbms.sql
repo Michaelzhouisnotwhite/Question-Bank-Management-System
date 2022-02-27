@@ -100,7 +100,9 @@ create definer = root@localhost trigger qbms.qwe
     on qbms.examination_question
     for each row
 begin
-    -- missing source code
+    UPDATE question
+    SET question.question_trigger=question.question_trigger + 1
+    WHERE question.question_id = new.question_id;
 end;
 
 create table if not exists qbms.judgment_question
